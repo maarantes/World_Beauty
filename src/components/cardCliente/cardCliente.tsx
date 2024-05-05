@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import "./cardCliente.scss"
 import BotaoCTA from "../botaoCTA/botaoCTA";
+import ModalAdicionarProd from '../modalConteudo/modalAdicionarProd';
 
 interface CardClienteProps {
     nome: string;
@@ -13,8 +14,20 @@ interface CardClienteProps {
 
 function CardCliente({ nome, nome_social, genero, cpf, produtos, servicos }: CardClienteProps) {
 
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+
+    function openModal() {
+        setModalIsOpen(true);
+    }
+
+    function closeModal() {
+        setModalIsOpen(false);
+    }
+
+    // Expandir card do cliente
     const [CardBaixoAberto, setCardBaixoAberto] = useState(false);
 
+    // Formatar CPF
     function formatarCPF(cpf: number) {
         const string_CPF = String(cpf);
         const parte1 = string_CPF.slice(0, 3);
@@ -30,14 +43,8 @@ function CardCliente({ nome, nome_social, genero, cpf, produtos, servicos }: Car
                 <div className="cacli_conteudo_esq">
                     <div className="cacli_info">
                         <p><span className="cacli_bold">Nome:</span> {nome} </p>
-                    </div>
-                    <div className="cacli_info">
                         <p><span className="cacli_bold">Nome social:</span> {nome_social} </p>
-                    </div>
-                    <div className="cacli_info">
                         <p><span className="cacli_bold">Gênero:</span> {genero} </p>
-                    </div>
-                    <div className="cacli_info">
                         <p><span className="cacli_bold">CPF:</span> {formatarCPF(cpf)} </p>
                     </div>
                 </div>
@@ -62,8 +69,12 @@ function CardCliente({ nome, nome_social, genero, cpf, produtos, servicos }: Car
                     ))}
                     </div>
                     <div className="cacli_baixo_secao_dir">
-                        <BotaoCTA escrito="Adicionar Prod." aparencia="secundario" />
+                        <BotaoCTA escrito="Adicionar Prod." aparencia="secundario" onClick={openModal} />
                     </div>
+                    
+                    {/* Modal adicionar produto */}
+                    <ModalAdicionarProd closeModal={closeModal} modalIsOpen={modalIsOpen} />
+
                 </div>
 
                 <hr className="cacli_divisoria" /> 
