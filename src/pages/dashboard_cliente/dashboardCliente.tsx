@@ -2,6 +2,7 @@ import "./dashboardCliente.scss"
 import Navbar from "../../components/navbar/navbar";
 import CardCliente from "../../components/cardCliente/cardCliente";
 import BotaoCTA from "../../components/botaoCTA/botaoCTA";
+import BotaoModalCadastrarCliente from "../../components/botaoModalCadastrarCliente/botaoModalCadastrarCliente";
 
 function dashboardCliente() {
   
@@ -11,7 +12,7 @@ function dashboardCliente() {
     <section className="margem">
 
       <h1 className="dashcli_titulo">Lista de Clientes</h1>
-      <BotaoCTA escrito="Cadastrar Cliente" aparencia="primario" cor="verde" />
+      <BotaoModalCadastrarCliente />
 
       <div className="dashcli_generos">
         <BotaoCTA escrito="Tudo" aparencia="primario"/>

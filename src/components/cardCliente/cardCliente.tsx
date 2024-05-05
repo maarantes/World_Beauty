@@ -64,9 +64,8 @@ function CardCliente({ nome, nome_social, genero, cpf, produtos, servicos }: Car
                         <p className="cacli_titulo">Carrinho ({produtos.length})</p>
                         {produtos.map((produto, index) => (
                         <div key={index} className="cacli_item">
-                            <button className="cacli_botao_cima cacli_lixeira cacli_menor"> 
-                                <img src="img/icon_lixeira.svg" /> 
-                            </button>
+                            <button className="cacli_botao_cima cacli_editar cacli_menor"> <img src="img/icon_editar.svg" /> </button>
+                            <button className="cacli_botao_cima cacli_lixeira cacli_menor"> <img src="img/icon_lixeira.svg" /> </button>
                             <p>{produto.nome}: {produto.quantidade}</p>
                         </div>
                     ))}
@@ -83,9 +82,8 @@ function CardCliente({ nome, nome_social, genero, cpf, produtos, servicos }: Car
                         <p className="cacli_titulo">Serviços Consumidos ({servicos.length})</p>
                         {servicos.map((servico, index) => (
                         <div key={index} className="cacli_item">
-                            <button className="cacli_botao_cima cacli_lixeira cacli_menor"> 
-                                <img src="img/icon_lixeira.svg" /> 
-                            </button>
+                            <button className="cacli_botao_cima cacli_editar cacli_menor"> <img src="img/icon_editar.svg" /> </button>
+                            <button className="cacli_botao_cima cacli_lixeira cacli_menor"> <img src="img/icon_lixeira.svg" /> </button>
                             <p>{servico.nome}: {servico.quantidade}</p>
                         </div>
                     ))}
