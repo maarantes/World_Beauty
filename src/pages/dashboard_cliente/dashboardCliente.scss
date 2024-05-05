@@ -1,0 +1,21 @@
+@import "../../global.scss";
+
+.dashcli_titulo {
+    color: $text-color-gray;
+    margin-bottom: 32px;
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+.dashcli_generos {
+    display: flex;
+    gap: 16px;
+    margin-top: 32px;
+}
+
+.dashcli_resultado {
+    margin-top: 32px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: $text-color-gray;
+}

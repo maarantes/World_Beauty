@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+$brand-color-pink: #e36cbc;
+$brand-color-pink-hover: #ab3a85;
+
+$shade-light-gray: #ababab;
+
+$text-color-gray: #505050;
+
+$color-green: #0b6e19;
+$color-green-hover: #05520f;
+
+$color-red: #e33b3b;
+$color-red-hover: #a81f1f;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter";
+    text-decoration: none;
+    list-style-position: inside;
+    scroll-behavior: smooth;
+    border: none;
+}
+
+.margem {
+    margin: 0 10%;
+}

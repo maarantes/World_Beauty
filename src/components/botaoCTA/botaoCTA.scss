@@ -1,0 +1,91 @@
+@import "../../global.scss";
+
+/* Estilo Botão Primário */
+
+.botao_cta_primario {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: $brand-color-pink;
+    padding: 12px 32px;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    color: white;
+    font-weight: 500;
+
+}
+
+.botao_cta_primario:hover {
+    background-color: $brand-color-pink-hover;
+}
+
+
+/* Estilo Botão Secundário */
+
+.botao_cta_secundario {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    background-color: white;
+    border: 2px solid $shade-light-gray;
+    padding: 12px 32px;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    color: #7d7d7d;
+}
+
+.botao_cta_secundario:hover {
+    border: 2px solid #303030;
+    color: #303030;
+}
+
+
+/* Props de Imagem */
+
+.botao_cta_primario img, .botao_cta_secundario img {
+    width: 24px;
+}
+
+
+/* Props de Cor */
+
+.botao_cta_verde {
+    background-color: $color-green;
+}
+
+.botao_cta_verde:hover {
+    background-color: $color-green-hover;
+}
+
+.botao_cta_vermelho {
+    background-color: $color-red;
+}
+
+.botao_cta_vermelho:hover {
+    background-color: $color-red-hover;
+}
+
+.botao_cta_secundario.botao_cta_verde {
+    color: $color-green;
+    background-color: white;
+    border: 2px solid $color-green;
+}
+
+.botao_cta_secundario.botao_cta_verde:hover {
+    color: $color-green-hover;
+    border: 2px solid $color-green-hover;
+}
+
+.botao_cta_secundario.botao_cta_vermelho {
+    color: $color-red;
+    background-color: white;
+    border: 2px solid $color-red;
+}
+
+.botao_cta_secundario.botao_cta_vermelho:hover {
+    color: $color-red-hover;
+    border: 2px solid $color-red-hover;
+}
