@@ -33,7 +33,6 @@ function dashboardCliente() {
         produtos={[{ nome: "Esmalte Rosa", quantidade: 5 }]}
         servicos={[{ nome: "Manicure", quantidade: 5 }]}
         />
-
       </div>
 
     </section>

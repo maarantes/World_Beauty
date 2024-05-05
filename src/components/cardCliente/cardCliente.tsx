@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import "./cardCliente.scss"
 import BotaoCTA from "../botaoCTA/botaoCTA";
-import ModalAdicionarProd from '../modalConteudo/modalAdicionarProd';
+import ModalAdicionarItem from '../modalAdicionarItem/modalAdicionarItem';
 
 interface CardClienteProps {
     nome: string;
@@ -14,9 +14,12 @@ interface CardClienteProps {
 
 function CardCliente({ nome, nome_social, genero, cpf, produtos, servicos }: CardClienteProps) {
 
+    // Abre o modal e fala se ele vai adicionar um produto ou serviço
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [tipo, setTipo] = useState("produto");
 
-    function openModal() {
+    function openModal(tipo: string) {
+        setTipo(tipo)
         setModalIsOpen(true);
     }
 
@@ -69,12 +72,8 @@ function CardCliente({ nome, nome_social, genero, cpf, produtos, servicos }: Car
                     ))}
                     </div>
                     <div className="cacli_baixo_secao_dir">
-                        <BotaoCTA escrito="Adicionar Prod." aparencia="secundario" onClick={openModal} />
+                    <BotaoCTA escrito="Adicionar Prod." aparencia="secundario" onClick={() => openModal("produto")} />
                     </div>
-                    
-                    {/* Modal adicionar produto */}
-                    <ModalAdicionarProd closeModal={closeModal} modalIsOpen={modalIsOpen} />
-
                 </div>
 
                 <hr className="cacli_divisoria" /> 
@@ -92,10 +91,16 @@ function CardCliente({ nome, nome_social, genero, cpf, produtos, servicos }: Car
                     ))}
                     </div>
                     <div className="cacli_baixo_secao_dir">
-                        <BotaoCTA escrito="Adicionar Serv." aparencia="secundario" />
+                    <BotaoCTA escrito="Adicionar Serv." aparencia="secundario" onClick={() => openModal("serviço")} />
                     </div>
+
+                    
                 </div>
             </div>
+            
+            {/* Modal adicionar produto ou serviço */}
+            <ModalAdicionarItem closeModal={closeModal} modalIsOpen={modalIsOpen} tipo={tipo} />
+
         </div>
     );
 }

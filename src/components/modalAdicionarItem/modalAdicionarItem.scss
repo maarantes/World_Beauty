@@ -28,5 +28,8 @@
 }
 
 .modal_form_botao {
+    display: flex;
+    justify-content: space-between;
+    gap: 88px;
     margin-top: 20px;
 }
