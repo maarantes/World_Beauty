@@ -18,13 +18,22 @@ export const ProdutoContext = React.createContext<ProdutoContextType>({
 export function ProdutoProvider({ children }: { children: React.ReactNode }) {
   const [produtos, setProdutos] = useState<Produto[]>([
     {
-      nome: "Corte de Cabelo",
+      nome: "Maquiagem",
       preco: 70
     },
     {
-      nome: "Manicure",
+      nome: "Esmalte Esmeralda",
       preco: 80
+    },
+    {
+      nome: "Escova",
+      preco: 50
+    },
+    {
+      nome: "Tinta para cabelo",
+      preco: 40
     }
+
   ]);
 
   return (

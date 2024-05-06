@@ -1,8 +1,12 @@
-import "./modalAdicionarItem.scss"
-import Modal from 'react-modal';
-import SelectAdicionarItem from "./selectAdicionarItem";
 import { useState } from "react";
+import "./modalAdicionarItem.scss"
+import SelectAdicionarItem from "./selectAdicionarItem";
 import BotaoCTA from "../botaoCTA/botaoCTA";
+
+import Modal from 'react-modal';
+
+import { ProdutoProvider } from "../../contexts/produtoProvider";
+import { ServicoProvider } from "../../contexts/servicoProvider";
 
 Modal.setAppElement('#root')
 
@@ -36,6 +40,8 @@ function ModalAdicionarProd ({ closeModal, modalIsOpen, tipo }: ModalProps) {
             onRequestClose={closeModal}
             style={customStyles}
                 >
+                <ProdutoProvider> {/* Importar a lista de produtos */}
+                <ServicoProvider> {/* Importar a lista de serviços */}
                 <div className="modal_escrito">
                     <h1>Adicionar {tipo.charAt(0).toUpperCase() + tipo.slice(1)}</h1>
                     <p>Selecione o {tipo} e a quantidade abaixo.</p>
@@ -48,6 +54,8 @@ function ModalAdicionarProd ({ closeModal, modalIsOpen, tipo }: ModalProps) {
                         <BotaoCTA escrito="Fechar" aparencia="secundario" onClick={closeModal} />
                     </div>
                 </form>
+                </ServicoProvider>
+                </ProdutoProvider>
         </Modal>
     );
 }

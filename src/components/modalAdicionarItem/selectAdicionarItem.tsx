@@ -1,23 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Select from "react-select";
+import { ProdutoContext } from '../../contexts/produtoProvider';
+import { ServicoContext } from '../../contexts/servicoProvider';
 
 interface SelectProps {
   tipo: string;
 }
-
-const opcoesProd = [
-  { value: "Exemplo 1", label: "Exemplo 1" },
-  { value: "Exemplo 2", label: "Exemplo 2" },
-  { value: "Exemplo 3", label: "Exemplo 3" },
-  { value: "Exemplo 4", label: "Exemplo 4" }
-];
-
-const opcoesServ = [
-  { value: "Exemplo 5", label: "Exemplo 5" },
-  { value: "Exemplo 6", label: "Exemplo 6" },
-  { value: "Exemplo 7", label: "Exemplo 7" },
-  { value: "Exemplo 8", label: "Exemplo 8" }
-];
 
 const customStyles = {
   control: (base: any, state: any) => ({
@@ -28,10 +16,16 @@ const customStyles = {
 
 function SelectAdicionarItem({ tipo }: SelectProps) {
   const [selectedOption, setSelectedOption] = useState(null);
+  const { produtos } = useContext(ProdutoContext);
+  const { Servicos } = useContext(ServicoContext); // Acessa os serviços do ServicoContext
 
   const handleChange = (option: any) => {
     setSelectedOption(option);
   };
+
+  // Mapeia os produtos e os serviços para o formato esperado pelo Select
+  const opcoesProd = produtos.map(produto => ({ value: produto.nome, label: produto.nome }));
+  const opcoesServ = Servicos.map(servico => ({ value: servico.nome, label: servico.nome }));
 
   // Se o tipo invocado não for Produto sempre vai ser Serviço
   const options = tipo === "produto" ? opcoesProd : opcoesServ;
