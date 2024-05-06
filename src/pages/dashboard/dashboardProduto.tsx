@@ -1,26 +1,16 @@
-import { useState } from "react";
+import React, { useState, useContext } from "react";
 import "./dashboard.scss"
 import Navbar from "../../components/navbar/navbar";
 import BotaoCTA from "../../components/botaoCTA/botaoCTA";
 import CardProduto from "../../components/cardProduto/cardProduto";
 import ModalCadEdiProdServ from "../../components/modalCadEdiProdServ/modalCadEdiProdServ";
+import { ProdutoContext } from '../../contexts/produtoProvider';
 
 function DashboardProduto() {
-
-    const produtos = [
-        {
-            nome: "Corte de Cabelo",
-            preco: 70
-        },
-        {
-            nome: "Manicure",
-            preco: 80
-        }
-    ];
+    const { produtos } = useContext(ProdutoContext);
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [tipo, setTipo] = useState<"cadastro" | "edicao">("cadastro");
-    // Caso abrir o modal no modo edição ele vai pegar as informações do usuário
     const [produto, setProduto] = useState<{nome: string, preco: number} | undefined>(undefined);
 
     function openModalCadastro() {
@@ -28,14 +18,15 @@ function DashboardProduto() {
       setModalIsOpen(true);
     }
 
-    function openModalEdicao() {
-      setTipo("edicao"); // Definir o tipo para "edicao" quando o botão de editar usuário do Card Produto for clicado
+    function openModalEdicao(produtoParaEditar: any) {
+      setProduto(produtoParaEditar);
+      setTipo("edicao");
       setModalIsOpen(true);
     }
 
     function closeModal() {
       setModalIsOpen(false);
-      setProduto(undefined); // Limpar o estado do Produto
+      setProduto(undefined);
     }
 
     return (
@@ -52,7 +43,7 @@ function DashboardProduto() {
     
           <div>
             {produtos.map((produto, index) => (
-              <CardProduto key={index} nome={produto.nome} preco={produto.preco} abrirModalEdicao={openModalEdicao}/>
+             <CardProduto key={index} nome={produto.nome} preco={produto.preco} abrirModalEdicao={() => openModalEdicao(produto)}/>
             ))}
           </div>
 

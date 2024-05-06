@@ -69,7 +69,7 @@ function ModalCadEdiProdServ ({ tipo, isOpen, fecharModal, produto }: modalCadEd
                         <input type="text" pattern="[A-Za-z\s]*" placeholder="Digite aqui..." value={nome} onChange={e => setNome(e.target.value)}/>
                     </div>
                     <div className="modalcad_form_item">
-                        <p>Preco:</p>
+                        <p>Preço (em reais):</p>
                         <input type="number" placeholder="Digite aqui..." value={preco} onChange={e => setPreco(e.target.value)}/>
                     </div>
                     <div className="modalcad_form_botao">

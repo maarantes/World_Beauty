@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import DashboardCliente from "../pages/dashboard/dashboardCliente";
 import Footer from "../components/footer/footer";
 import DashboardProduto from "../pages/dashboard/dashboardProduto";
+import { ProdutoContext, ProdutoProvider } from '../contexts/produtoProvider';
 
 
 
@@ -15,7 +16,12 @@ export default function AppRoutes() {
     },
     {
       path: "/produtos",
-      element: <DashboardProduto />,
+      element:
+      <>
+      <ProdutoProvider>
+        <DashboardProduto />
+      </ProdutoProvider>
+      </>,
     },
 
   ]);
