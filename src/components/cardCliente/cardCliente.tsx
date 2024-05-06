@@ -10,9 +10,11 @@ interface CardClienteProps {
     cpf: number;
     produtos: { nome: string, quantidade: number }[];
     servicos: { nome: string, quantidade: number }[];
+    // Isso chamará a função de abrir o modal multifunção no modo edição, no componente pai (dashboard)
+    abrirModalEdicao: () => void;
 }
 
-function CardCliente({ nome, nome_social, genero, cpf, produtos, servicos }: CardClienteProps) {
+function CardCliente({ nome, nome_social, genero, cpf, produtos, servicos, abrirModalEdicao }: CardClienteProps) {
 
     // Abre o modal e fala se ele vai adicionar um produto ou serviço
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -52,7 +54,7 @@ function CardCliente({ nome, nome_social, genero, cpf, produtos, servicos }: Car
                     </div>
                 </div>
                 <div className="cacli_conteudo_dir">
-                    <button className="cacli_botao_cima cacli_editar"> <img src="img/icon_editar.svg" /> </button>
+                <button className="cacli_botao_cima cacli_editar" onClick={abrirModalEdicao}> <img src="img/icon_editar.svg" /> </button>
                     <button className="cacli_botao_cima cacli_lixeira"> <img src="img/icon_lixeira.svg" /> </button>
                 </div>
             </div>
@@ -64,7 +66,6 @@ function CardCliente({ nome, nome_social, genero, cpf, produtos, servicos }: Car
                         <p className="cacli_titulo">Carrinho ({produtos.length})</p>
                         {produtos.map((produto, index) => (
                         <div key={index} className="cacli_item">
-                            <button className="cacli_botao_cima cacli_editar cacli_menor"> <img src="img/icon_editar.svg" /> </button>
                             <button className="cacli_botao_cima cacli_lixeira cacli_menor"> <img src="img/icon_lixeira.svg" /> </button>
                             <p>{produto.nome}: {produto.quantidade}</p>
                         </div>
@@ -82,7 +83,6 @@ function CardCliente({ nome, nome_social, genero, cpf, produtos, servicos }: Car
                         <p className="cacli_titulo">Serviços Consumidos ({servicos.length})</p>
                         {servicos.map((servico, index) => (
                         <div key={index} className="cacli_item">
-                            <button className="cacli_botao_cima cacli_editar cacli_menor"> <img src="img/icon_editar.svg" /> </button>
                             <button className="cacli_botao_cima cacli_lixeira cacli_menor"> <img src="img/icon_lixeira.svg" /> </button>
                             <p>{servico.nome}: {servico.quantidade}</p>
                         </div>
