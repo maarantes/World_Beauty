@@ -1,0 +1,113 @@
+@import "../../global.scss";
+
+.cacli_wrapper {
+    border: 2px solid $shade-light-gray;
+    border-radius: 8px;
+    padding: 32px;
+    width: 50%;
+    color: $text-color-gray;
+    margin-top: 32px;
+}
+
+.cacli_bold {
+    font-weight: 500;
+}
+
+.cacli_conteudo {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cacli_info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 32px;
+}
+
+.cacli_conteudo_dir {
+    display: flex;
+    gap: 12px;
+}
+
+.cacli_botao_cima {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+}
+
+.cacli_lixeira {
+    background-color: $color-red;
+}
+
+.cacli_lixeira:hover {
+    background-color: $color-red-hover;
+}
+
+.cacli_editar {
+    background-color: $color-green;
+}
+
+.cacli_editar:hover {
+    background-color: $color-green-hover;
+}
+
+.cacli_baixo {
+    display: none;
+}
+
+.cacli_baixo.aberto {
+    display: flex;
+    flex-direction: column;
+}
+
+.cacli_divisoria {
+    border: 1px solid $shade-light-gray;
+    margin-top: 32px;
+    margin-bottom: 32px;
+    width: 100%;
+}
+
+.cacli_titulo {
+    color: $brand-color-pink;
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.cacli_item {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-top: 12px;
+    font-weight: 500;
+    color: $text-color-gray;
+}
+
+.cacli_menor {
+    width: 32px;
+    height: 32px;
+}
+
+.cacli_menor img {
+    width: 12px;
+}
+
+.cacli_baixo_secao {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cacli_baixo_secao_esq {
+    display: flex;
+    flex-direction: column;
+}
+
+.cacli_mbottomzero {
+    margin-bottom: 0px;
+}
+
