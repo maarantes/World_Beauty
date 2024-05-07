@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import "./dashboard.scss"
 import Navbar from "../../components/navbar/navbar";
 import BotaoCTA from "../../components/botaoCTA/botaoCTA";
-import CardProduto from "../../components/cardProduto/cardProduto";
+import CardProdServ from "../../components/cardProdServ/cardProdServ";
 import ModalCadEdiProdServ from "../../components/modalCadEdiProdServ/modalCadEdiProdServ";
 import { ProdutoContext } from '../../contexts/produtoProvider';
 
@@ -43,11 +43,11 @@ function DashboardProduto() {
     
           <div>
             {produtos.map((produto, index) => (
-             <CardProduto key={index} nome={produto.nome} preco={produto.preco} abrirModalEdicao={() => openModalEdicao(produto)}/>
+             <CardProdServ key={index} nome={produto.nome} preco={produto.preco} abrirModalEdicao={() => openModalEdicao(produto)}/>
             ))}
           </div>
 
-          <ModalCadEdiProdServ tipo={tipo} isOpen={modalIsOpen} fecharModal={closeModal} produto={produto} />
+          <ModalCadEdiProdServ tipo={tipo} isOpen={modalIsOpen} fecharModal={closeModal} item={produto} categoria="produto" />
     
         </section>
 

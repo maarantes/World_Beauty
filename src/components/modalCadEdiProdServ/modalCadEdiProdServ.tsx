@@ -9,23 +9,24 @@ interface modalCadEdiProdServProps {
     tipo: "cadastro" | "edicao";
     isOpen: boolean;
     fecharModal: () => void;
-    produto?: {
+    item?: {
         nome: string;
         preco: number;
     };
+    categoria: "produto" | "serviço";
 }
 
-function ModalCadEdiProdServ ({ tipo, isOpen, fecharModal, produto }: modalCadEdiProdServProps) {
+function ModalCadEdiProdServ ({ tipo, isOpen, fecharModal, item, categoria}: modalCadEdiProdServProps) {
 
-    // Caso abrir o modal no modo edição ele vai pegar as informações do usuário
+    // Caso abrir o modal no modo edição ele vai pegar as informações do item ou serviço
     const [nome, setNome] = useState("");
     const [preco, setPreco] = useState("");
 
-    // Atualizar os estados quando a prop "produto" mudar
+    // Atualizar os estados quando a prop "item" mudar
     useEffect(() => {
-        setNome(produto?.nome || "");
-        setPreco(produto?.preco.toString() || "");
-    }, [produto]);
+        setNome(item?.nome || "");
+        setPreco(item?.preco.toString() || "");
+    }, [item]);
     
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -60,7 +61,7 @@ function ModalCadEdiProdServ ({ tipo, isOpen, fecharModal, produto }: modalCadEd
             style={estiloModal}
                 >
                 <div className="modalcad_escrito">
-                    <h1>{tipo === 'edicao' ? 'Editar Produto' : 'Cadastrar Produto'}</h1>
+                    <h1>{tipo === 'edicao' ? `Editar ${categoria}` : `Cadastrar ${categoria}`}</h1>
                     <p>Preencha as informações abaixo.</p>
                 </div>
                 <form className="modalcad_form" onSubmit={handleSubmit}>

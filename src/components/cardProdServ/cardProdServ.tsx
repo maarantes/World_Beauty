@@ -1,25 +1,12 @@
-import { useState } from 'react';
-import "./cardProduto.scss"
+import "./cardProdServ.scss"
 
-interface CardProdutoProps {
+interface CardProps {
     nome: string;
     preco: number;
     abrirModalEdicao?: () => void;
 }
 
-function CardProduto({ nome, preco, abrirModalEdicao }: CardProdutoProps) {
-
-    const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [tipo, setTipo] = useState("produto");
-
-    function openModal(tipo: string) {
-        setTipo(tipo)
-        setModalIsOpen(true);
-    }
-
-    function closeModal() {
-        setModalIsOpen(false);
-    }
+function CardServProd({ nome, preco, abrirModalEdicao }: CardProps) {
 
     return (
         <div className="cacli_wrapper">
@@ -39,4 +26,4 @@ function CardProduto({ nome, preco, abrirModalEdicao }: CardProdutoProps) {
     );
 }
 
-export default CardProduto;
+export default CardServProd;
