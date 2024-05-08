@@ -7,6 +7,7 @@ import { ProdutoProvider } from '../contexts/produtoProvider';
 import DashboardServico from "../pages/dashboard/dashboardServico";
 import { ServicoProvider } from "../contexts/servicoProvider";
 import { ClienteProvider } from "../contexts/clienteProvider";
+import PaginaListagens from "../pages/listagens/listagens";
 
 
 
@@ -36,6 +37,13 @@ export default function AppRoutes() {
       <ServicoProvider>
         <DashboardServico />
       </ServicoProvider>
+      </>,
+    },
+    {
+      path: "/listagens",
+      element:
+      <>
+      <PaginaListagens />
       </>,
     }
 
