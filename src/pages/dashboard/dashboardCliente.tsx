@@ -66,10 +66,10 @@ function DashboardCliente() {
     <BotaoCTA escrito="Cadastrar Cliente" aparencia="primario" cor="verde" onClick={openModalCadastro}/>
 
     <div className="dash_generos">
-        <BotaoCTA escrito="Tudo" aparencia={generoFiltro === 'Tudo' ? 'primario' : 'secundario'} onClick={() => setGeneroFiltro('Tudo')} />
-        <BotaoCTA escrito="Masculino" aparencia={generoFiltro === 'Masculino' ? 'primario' : 'secundario'} onClick={() => setGeneroFiltro('Masculino')} />
-        <BotaoCTA escrito="Feminino" aparencia={generoFiltro === 'Feminino' ? 'primario' : 'secundario'} onClick={() => setGeneroFiltro('Feminino')} />
-        <BotaoCTA escrito="Outros" aparencia={generoFiltro === 'Outros' ? 'primario' : 'secundario'} onClick={() => setGeneroFiltro('Outros')} />
+        <BotaoCTA escrito="Tudo" aparencia={generoFiltro === 'Tudo' ? 'primario' : 'secundario'} onClick={() => setGeneroFiltro('Tudo')} className={generoFiltro === 'Tudo' ? 'sem_hover' : ''} />
+        <BotaoCTA escrito="Masculino" aparencia={generoFiltro === 'Masculino' ? 'primario' : 'secundario'} onClick={() => setGeneroFiltro('Masculino')} className={generoFiltro === 'Masculino' ? 'sem_hover' : ''} />
+        <BotaoCTA escrito="Feminino" aparencia={generoFiltro === 'Feminino' ? 'primario' : 'secundario'} onClick={() => setGeneroFiltro('Feminino')} className={generoFiltro === 'Feminino' ? 'sem_hover' : ''} />
+        <BotaoCTA escrito="Outros" aparencia={generoFiltro === 'Outros' ? 'primario' : 'secundario'} onClick={() => setGeneroFiltro('Outros')} className={generoFiltro === 'Outros' ? 'sem_hover' : ''} />
     </div>
 
       <p className="dash_resultado">

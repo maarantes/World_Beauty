@@ -89,3 +89,10 @@
     color: $color-red-hover;
     border: 2px solid $color-red-hover;
 }
+
+/* Tirar hover do botão */
+
+.sem_hover:hover {
+    background-color: $brand-color-pink;
+    cursor: auto;
+}
