@@ -1,4 +1,5 @@
-import React, { useState, Dispatch, SetStateAction } from 'react';
+import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
+import axios from 'axios';
 import { Produto } from "./produtoProvider";
 import { Servico } from "./servicoProvider";
 
@@ -13,12 +14,13 @@ interface ServicosCarrinho {
 }
 
 interface Cliente {
-  nome: string;
-  nome_social: string;
-  genero: "Masculino" | "Feminino" | "Outro";
-  cpf: number;
-  produtos: ProdutosCarrinho[];
-  servicos: ServicosCarrinho[];
+  ID: number;
+  Nome: string;
+  NomeSocial: string;
+  Genero: "Masculino" | "Feminino" | "Outro";
+  CPF: number;
+  Produtos: ProdutosCarrinho[];
+  Servicos: ServicosCarrinho[];
 }
 
 interface ClienteContextType {
@@ -32,24 +34,17 @@ export const ClienteContext = React.createContext<ClienteContextType>({
 });
 
 export function ClienteProvider({ children }: { children: React.ReactNode }) {
-  const [Clientes, setClientes] = useState<Cliente[]>([
-    {
-      nome: "Daniel Oliveira",
-      nome_social: "Daniel",
-      genero: "Masculino",
-      cpf: 44396793820,
-      produtos: [{ produto: { nome: "Esmalte Rosa", preco: 10 }, quantidade: 5 }],
-      servicos: [{ servico: { nome: "Manicure", preco: 80 }, quantidade: 2 }]
-    },
-    {
-        nome: "Rosângela Pires",
-        nome_social: "Rosa",
-        genero: "Feminino",
-        cpf: 12212200000,
-        produtos: [{ produto: { nome: "Tinta para Cabelo", preco: 50 }, quantidade: 8 }],
-        servicos: [{ servico: { nome: "Hidratação de Cabelo", preco: 40 }, quantidade: 4 }]
-    }
-  ]);
+  const [Clientes, setClientes] = useState<Cliente[]>([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:5000/mostrarClientes")
+      .then(response => {
+        setClientes(response.data);
+      })
+      .catch(error => {
+        console.error("Erro ao buscar clientes", error);
+      });
+  }, []);
 
   return (
     <ClienteContext.Provider value={{ Clientes, setClientes }}>

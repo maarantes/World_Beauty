@@ -4,17 +4,17 @@ import BotaoCTA from "../botaoCTA/botaoCTA";
 import ModalAdicionarItem from '../modalAdicionarItem/modalAdicionarItem';
 
 interface CardClienteProps {
-    nome: string;
-    nome_social: string;
-    genero: string;
-    cpf: number;
-    produtos: { nome: string, quantidade: number }[];
-    servicos: { nome: string, quantidade: number }[];
+    Nome: string;
+    NomeSocial: string;
+    Genero: string;
+    CPF: number;
+    Produtos: { Nome: string, quantidade: number }[];
+    Servicos: { Nome: string, quantidade: number }[];
     // Isso chamará a função de abrir o modal multifunção no modo edição, no componente pai (dashboard)
     abrirModalEdicao: () => void;
 }
 
-function CardCliente({ nome, nome_social, genero, cpf, produtos, servicos, abrirModalEdicao }: CardClienteProps) {
+function CardCliente({ Nome, NomeSocial, Genero, CPF, Produtos, Servicos, abrirModalEdicao }: CardClienteProps) {
 
     // Abre o modal e fala se ele vai adicionar um produto ou serviço
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -33,8 +33,8 @@ function CardCliente({ nome, nome_social, genero, cpf, produtos, servicos, abrir
     const [CardBaixoAberto, setCardBaixoAberto] = useState(false);
 
     // Formatar CPF
-    function formatarCPF(cpf: number) {
-        const string_CPF = String(cpf);
+    function formatarCPF(CPF: number) {
+        const string_CPF = String(CPF);
         const parte1 = string_CPF.slice(0, 3);
         const parte2 = string_CPF.slice(3, 6);
         const parte3 = string_CPF.slice(6, 9);
@@ -47,10 +47,10 @@ function CardCliente({ nome, nome_social, genero, cpf, produtos, servicos, abrir
             <div className="cacli_conteudo">
                 <div className="cacli_conteudo_esq">
                     <div className="cacli_info">
-                        <p><span className="cacli_bold">Nome:</span> {nome} </p>
-                        <p><span className="cacli_bold">Nome social:</span> {nome_social} </p>
-                        <p><span className="cacli_bold">Gênero:</span> {genero} </p>
-                        <p><span className="cacli_bold">CPF:</span> {formatarCPF(cpf)} </p>
+                        <p><span className="cacli_bold">Nome:</span> {Nome} </p>
+                        <p><span className="cacli_bold">Nome social:</span> {NomeSocial} </p>
+                        <p><span className="cacli_bold">Gênero:</span> {Genero} </p>
+                        <p><span className="cacli_bold">CPF:</span> {formatarCPF(CPF)} </p>
                     </div>
                 </div>
                 <div className="cacli_conteudo_dir">
@@ -63,11 +63,11 @@ function CardCliente({ nome, nome_social, genero, cpf, produtos, servicos, abrir
                 <hr className="cacli_divisoria" /> 
                 <div className="cacli_baixo_secao">
                     <div className="cacli_baixo_secao_esq">
-                        <p className="cacli_titulo">Carrinho ({produtos.length})</p>
-                        {produtos.map((produto, index) => (
+                        <p className="cacli_titulo">Carrinho ({Produtos.length})</p>
+                        {(Produtos || []).map((produto, index) => (
                         <div key={index} className="cacli_item">
                             <button className="cacli_botao_cima cacli_lixeira cacli_menor"> <img src="img/icon_lixeira.svg" /> </button>
-                            <p>{produto.nome}: {produto.quantidade}</p>
+                            <p>{produto.Nome}: {produto.quantidade}</p>
                         </div>
                     ))}
                     </div>
@@ -80,11 +80,11 @@ function CardCliente({ nome, nome_social, genero, cpf, produtos, servicos, abrir
 
                 <div className="cacli_baixo_secao">
                     <div className="cacli_baixo_secao_esq">
-                        <p className="cacli_titulo">Serviços Consumidos ({servicos.length})</p>
-                        {servicos.map((servico, index) => (
+                        <p className="cacli_titulo">Serviços Consumidos ({Servicos.length})</p>
+                        {(Servicos || []).map((servico, index) => (
                         <div key={index} className="cacli_item">
                             <button className="cacli_botao_cima cacli_lixeira cacli_menor"> <img src="img/icon_lixeira.svg" /> </button>
-                            <p>{servico.nome}: {servico.quantidade}</p>
+                            <p>{servico.Nome}: {servico.quantidade}</p>
                         </div>
                     ))}
                     </div>

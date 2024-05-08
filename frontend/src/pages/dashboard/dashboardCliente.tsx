@@ -17,7 +17,7 @@ function DashboardCliente() {
       if (generoFiltro === 'Tudo') {
         return Clientes;
       } else {
-        return Clientes.filter(cliente => cliente.genero === generoFiltro);
+        return Clientes.filter(cliente => cliente.Genero === generoFiltro);
       }
     };
 
@@ -61,20 +61,21 @@ function DashboardCliente() {
       </p>
 
       <div>
-        {filtrarClientes().map(cliente => (
+      {filtrarClientes() && filtrarClientes().map(cliente => (
           <CardCliente
-            nome={cliente.nome}
-            nome_social={cliente.nome_social}
-            genero={cliente.genero}
-            cpf={cliente.cpf}
-            produtos={cliente.produtos.map(p => ({ nome: p.produto.nome, quantidade: p.quantidade }))}
-            servicos={cliente.servicos.map(s => ({ nome: s.servico.nome, quantidade: s.quantidade }))}
+            key={cliente.ID}
+            Nome={cliente.Nome}
+            NomeSocial={cliente.NomeSocial}
+            Genero={cliente.Genero}
+            CPF={cliente.CPF}
+            Produtos={cliente.Produtos ? cliente.Produtos.map(p => ({ Nome: p.produto.nome, quantidade: p.quantidade })) : []}
+            Servicos={cliente.Servicos ? cliente.Servicos.map(s => ({ Nome: s.servico.nome, quantidade: s.quantidade })) : []}
             abrirModalEdicao={() => {
               setUsuario({
-                nome: cliente.nome,
-                nome_social: cliente.nome_social,
-                genero: cliente.genero,
-                cpf: cliente.cpf
+                nome: cliente.Nome,
+                nome_social: cliente.NomeSocial,
+                genero: cliente.Genero,
+                cpf: cliente.CPF
               });
               openModalEdicao();
             }}

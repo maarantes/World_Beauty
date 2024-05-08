@@ -4,6 +4,8 @@ import Modal from 'react-modal';
 import "./modalCadastrarEditarCliente.scss"
 import Select from "react-select";
 
+import axios from 'axios';
+
 Modal.setAppElement('#root')
 
 interface BotaoModalProps {
@@ -82,7 +84,21 @@ const estiloSelect = {
 
     function handleSubmit(event: any) {
         event.preventDefault();
-        // Colocar backend aqui depois
+    
+        const cliente = {
+            Nome: nome,
+            NomeSocial: nomeSocial,
+            Genero: selectedOption ? selectedOption.value : "Outro",
+            CPF: cpf
+        };
+        axios.post("http://localhost:5000/cadastrarCliente", cliente)
+            .then(response => {
+                console.log(response.data);
+                fecharModal();
+            })
+            .catch(error => {
+                console.error("Erro ao cadastrar cliente", error);
+            });
     }
       
     return (
