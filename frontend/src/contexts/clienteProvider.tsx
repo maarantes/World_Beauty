@@ -26,17 +26,19 @@ interface Cliente {
 interface ClienteContextType {
   Clientes: Cliente[];
   setClientes: Dispatch<SetStateAction<Cliente[]>>;
+  buscarClientes: () => void;
 }
 
 export const ClienteContext = React.createContext<ClienteContextType>({
   Clientes: [],
-  setClientes: () => {} // função vazia
+  setClientes: () => {},
+  buscarClientes: () => {}
 });
 
 export function ClienteProvider({ children }: { children: React.ReactNode }) {
   const [Clientes, setClientes] = useState<Cliente[]>([]);
 
-  useEffect(() => {
+  const buscarClientes = () => {
     axios.get("http://localhost:5000/mostrarClientes")
       .then(response => {
         setClientes(response.data);
@@ -44,10 +46,12 @@ export function ClienteProvider({ children }: { children: React.ReactNode }) {
       .catch(error => {
         console.error("Erro ao buscar clientes", error);
       });
-  }, []);
+  };
+
+  useEffect(buscarClientes, []);
 
   return (
-    <ClienteContext.Provider value={{ Clientes, setClientes }}>
+    <ClienteContext.Provider value={{ Clientes, setClientes, buscarClientes }}>
       {children}
     </ClienteContext.Provider>
   );

@@ -1,10 +1,13 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import BotaoCTA from "../botaoCTA/botaoCTA";
 import Modal from 'react-modal';
 import "./modalCadastrarEditarCliente.scss"
 import Select from "react-select";
 
 import axios from 'axios';
+import { toast } from "react-toastify";
+import { ClienteContext } from "../../contexts/clienteProvider";
+import NotificacaoToast from "../NotificacaoToast/notificacaoToast";
 
 Modal.setAppElement('#root')
 
@@ -29,6 +32,8 @@ const estiloSelect = {
   };
 
   function ModalCadastrarEditarCliente ({ tipo, isOpen, fecharModal, usuario }: BotaoModalProps) {
+
+    const { buscarClientes } = useContext(ClienteContext);
 
     // Caso abrir o modal no modo edição ele vai pegar as informações do usuário
     const [nome, setNome] = useState("");
@@ -95,9 +100,18 @@ const estiloSelect = {
             .then(response => {
                 console.log(response.data);
                 fecharModal();
+                toast.success("Cliente cadastrado com sucesso!");
+                // Atualizar lista de clientes
+                buscarClientes();
+
+                // Limpar os campos
+                setNome("");
+                setNomeSocial("");
+                setSelectedOption(null);
+                setCpf("");
             })
             .catch(error => {
-                console.error("Erro ao cadastrar cliente", error);
+                toast.warning("O nome ou CPF já estão cadastrados!");
             });
     }
       
@@ -142,6 +156,8 @@ const estiloSelect = {
                     </div>
                 </form>
         </Modal>
+
+        <NotificacaoToast />
         </>
     )
 }
