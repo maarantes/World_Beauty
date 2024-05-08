@@ -1,9 +1,14 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import "./cardCliente.scss"
 import BotaoCTA from "../botaoCTA/botaoCTA";
-import ModalAdicionarItem from '../modalAdicionarItem/modalAdicionarItem';
+import ModalAdicionarItem from "../modalAdicionarItem/modalAdicionarItem";
+
+import axios from "axios";
+
+import { ClienteContext } from "../../contexts/clienteProvider";
 
 interface CardClienteProps {
+    ID: number;
     Nome: string;
     NomeSocial: string;
     Genero: string;
@@ -14,7 +19,7 @@ interface CardClienteProps {
     abrirModalEdicao: () => void;
 }
 
-function CardCliente({ Nome, NomeSocial, Genero, CPF, Produtos, Servicos, abrirModalEdicao }: CardClienteProps) {
+function CardCliente({ ID, Nome, NomeSocial, Genero, CPF, Produtos, Servicos, abrirModalEdicao }: CardClienteProps) {
 
     // Abre o modal e fala se ele vai adicionar um produto ou serviço
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -42,7 +47,25 @@ function CardCliente({ Nome, NomeSocial, Genero, CPF, Produtos, Servicos, abrirM
         return `${parte1}.${parte2}.${parte3}-${parte4}`;
     }
 
+    const { buscarClientes } = useContext(ClienteContext);
+
+    function deletarCliente(ID: number) {
+        axios.delete(`http://localhost:5000/deletarCliente/${ID}`)
+            .then(response => {
+                console.log(response);
+                // Tentar criar ticket de sucesso depois já que não foi de primeira
+                // Atualizar lista de clientes
+                buscarClientes();
+            })
+            .catch(error => {
+                console.error("Erro ao deletar cliente", error);
+            });
+    return () => {};
+    }
+
     return (
+        
+        <>
         <div className="cacli_wrapper">
             <div className="cacli_conteudo">
                 <div className="cacli_conteudo_esq">
@@ -51,11 +74,12 @@ function CardCliente({ Nome, NomeSocial, Genero, CPF, Produtos, Servicos, abrirM
                         <p><span className="cacli_bold">Nome social:</span> {NomeSocial} </p>
                         <p><span className="cacli_bold">Gênero:</span> {Genero} </p>
                         <p><span className="cacli_bold">CPF:</span> {formatarCPF(CPF)} </p>
+                        <p><span className="cacli_bold">ID:</span> {ID} </p>
                     </div>
                 </div>
                 <div className="cacli_conteudo_dir">
                 <button className="cacli_botao_cima cacli_editar" onClick={abrirModalEdicao}> <img src="img/icon_editar.svg" /> </button>
-                    <button className="cacli_botao_cima cacli_lixeira"> <img src="img/icon_lixeira.svg" /> </button>
+                <button className="cacli_botao_cima cacli_lixeira" onClick={() => deletarCliente(ID)}> <img src="img/icon_lixeira.svg" /> </button>
                 </div>
             </div>
             <BotaoCTA escrito={CardBaixoAberto ? "Fechar" : "Expandir"} aparencia="secundario" onClick={() => setCardBaixoAberto(!CardBaixoAberto)} />
@@ -90,9 +114,7 @@ function CardCliente({ Nome, NomeSocial, Genero, CPF, Produtos, Servicos, abrirM
                     </div>
                     <div className="cacli_baixo_secao_dir">
                     <BotaoCTA escrito="Adicionar Serv." aparencia="secundario" onClick={() => openModal("serviço")} />
-                    </div>
-
-                    
+                    </div>                    
                 </div>
             </div>
             
@@ -100,6 +122,7 @@ function CardCliente({ Nome, NomeSocial, Genero, CPF, Produtos, Servicos, abrirM
             <ModalAdicionarItem closeModal={closeModal} modalIsOpen={modalIsOpen} tipo={tipo} />
 
         </div>
+        </>
     );
 }
 

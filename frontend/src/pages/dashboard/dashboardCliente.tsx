@@ -63,6 +63,7 @@ function DashboardCliente() {
       <div>
       {filtrarClientes() && filtrarClientes().map(cliente => (
           <CardCliente
+            ID={cliente.ID}
             key={cliente.ID}
             Nome={cliente.Nome}
             NomeSocial={cliente.NomeSocial}

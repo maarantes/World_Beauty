@@ -41,6 +41,19 @@ module.exports = (connection) => {
         }
       });
     });
+
+    router.delete("/deletarCliente/:id", (req, res) => {
+      let comando = `DELETE FROM Clientes WHERE ID = ${req.params.id}`;
+      let query = connection.query(comando, (err, result) => {
+        if (err) {
+          console.error("Erro ao deletar cliente", err);
+          res.status(500).send("Erro ao deletar cliente");
+        } else {
+          res.send("Cliente deletado com sucesso!");
+        }
+      });
+    });
+    
   
     return router;
 };
