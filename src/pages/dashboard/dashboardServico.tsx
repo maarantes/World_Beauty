@@ -35,7 +35,7 @@ function DashboardServico() {
         <section className="margem">
     
         <h1 className="dash_titulo">Lista de Serviços</h1>
-        <BotaoCTA escrito="Cadastrar Servico" aparencia="primario" cor="verde" onClick={openModalCadastro}/>
+        <BotaoCTA escrito="Cadastrar Serviço" aparencia="primario" cor="verde" onClick={openModalCadastro}/>
     
           <p className="dash_resultado">
             {Servicos.length} RESULTADOS ENCONTRADOS

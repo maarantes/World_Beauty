@@ -1,39 +1,23 @@
+import React, { useState, useContext } from 'react';
+import { ClienteContext } from '../../contexts/clienteProvider';
 import "./dashboard.scss"
 import Navbar from "../../components/navbar/navbar";
 import CardCliente from "../../components/cardCliente/cardCliente";
 import BotaoCTA from "../../components/botaoCTA/botaoCTA";
 import ModalCadastrarEditarCliente from "../../components/modalCadastrarEditarCliente/modalCadastrarEditarCliente";
-import { useState } from "react";
 
 function DashboardCliente() {
+
+  const { Clientes } = useContext(ClienteContext);
 
     // Filtrar cartões por gênero
     const [generoFiltro, setGeneroFiltro] = useState('Tudo');
 
-    const clientes = [
-      {
-        nome: "Daniel Oliveira",
-        nome_social: "Daniel",
-        genero: "Masculino",
-        cpf: 44396793820,
-        produtos: [{ nome: "Esmalte Rosa", quantidade: 5 }],
-        servicos: [{ nome: "Manicure", quantidade: 5 }]
-      },
-      {
-        nome: "Rosângela Pires",
-        nome_social: "Rosa",
-        genero: "Feminino",
-        cpf: 12212100000,
-        produtos: [{ nome: "Tinta para Cabelo", quantidade: 2 }],
-        servicos: [{ nome: "Hidratação de Cabelo", quantidade: 8 }]
-      }
-    ];
-
     const filtrarClientes = () => {
       if (generoFiltro === 'Tudo') {
-        return clientes;
+        return Clientes;
       } else {
-        return clientes.filter(cliente => cliente.genero === generoFiltro);
+        return Clientes.filter(cliente => cliente.genero === generoFiltro);
       }
     };
 
@@ -83,8 +67,8 @@ function DashboardCliente() {
             nome_social={cliente.nome_social}
             genero={cliente.genero}
             cpf={cliente.cpf}
-            produtos={cliente.produtos}
-            servicos={cliente.servicos}
+            produtos={cliente.produtos.map(p => ({ nome: p.produto.nome, quantidade: p.quantidade }))}
+            servicos={cliente.servicos.map(s => ({ nome: s.servico.nome, quantidade: s.quantidade }))}
             abrirModalEdicao={() => {
               setUsuario({
                 nome: cliente.nome,

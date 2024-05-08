@@ -6,6 +6,7 @@ import DashboardProduto from "../pages/dashboard/dashboardProduto";
 import { ProdutoProvider } from '../contexts/produtoProvider';
 import DashboardServico from "../pages/dashboard/dashboardServico";
 import { ServicoProvider } from "../contexts/servicoProvider";
+import { ClienteProvider } from "../contexts/clienteProvider";
 
 
 
@@ -14,7 +15,10 @@ export default function AppRoutes() {
   const router = createBrowserRouter([
     {
       path: "/clientes",
-      element: <DashboardCliente />,
+      element:
+      <ClienteProvider>
+        <DashboardCliente />,
+      </ClienteProvider>
     },
     {
       path: "/produtos",

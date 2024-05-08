@@ -1,6 +1,6 @@
 import React, { useState, Dispatch, SetStateAction } from 'react';
 
-interface Produto {
+export interface Produto {
   nome: string;
   preco: number;
 }
