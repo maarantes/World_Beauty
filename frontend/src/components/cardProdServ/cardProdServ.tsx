@@ -11,7 +11,7 @@ interface CardProps {
     abrirModalEdicao?: () => void;
 }
 
-function CardServProd({ ID, Nome, Preco, abrirModalEdicao }: CardProps) {
+function CardProdServ({ ID, Nome, Preco, abrirModalEdicao }: CardProps) {
 
     const { buscarProdutos } = useContext(ProdutoContext);
 
@@ -48,4 +48,4 @@ function CardServProd({ ID, Nome, Preco, abrirModalEdicao }: CardProps) {
     );
 }
 
-export default CardServProd;
+export default CardProdServ;

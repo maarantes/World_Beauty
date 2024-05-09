@@ -11,7 +11,7 @@ function DashboardServico() {
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [tipo, setTipo] = useState<"cadastro" | "edicao">("cadastro");
-    const [Servico, setServico] = useState<{nome: string, preco: number} | undefined>(undefined);
+    const [Servico, setServico] = useState<{ID: number, nome: string, preco: number} | undefined>(undefined);
 
     function openModalCadastro() {
       setTipo("cadastro");

@@ -14,6 +14,7 @@ interface modalCadEdiProdServProps {
     isOpen: boolean;
     fecharModal: () => void;
     item?: {
+        ID: number,
         nome: string;
         preco: number;
     };
@@ -25,13 +26,16 @@ function ModalCadEdiProdServ ({ tipo, isOpen, fecharModal, item, categoria}: mod
     const { buscarProdutos } = useContext(ProdutoContext);
 
     // Caso abrir o modal no modo edição ele vai pegar as informações do item ou serviço
+
+    const [ID, setID] = useState<number>();
     const [nome, setNome] = useState("");
     const [preco, setPreco] = useState("");
 
     // Atualizar os estados quando a prop "item" mudar
     useEffect(() => {
+        setID(item?.ID || undefined);
         setNome(item?.nome || "");
-        setPreco(item?.preco.toString() || "");
+        setPreco(item && item.preco ? item.preco.toString() : "");
     }, [item]);
     
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -55,22 +59,35 @@ function ModalCadEdiProdServ ({ tipo, isOpen, fecharModal, item, categoria}: mod
 
     async function handleSubmit(event: any) {
         event.preventDefault();
+
+        if (!preco.includes(".")) {
+            toast.warning("Inclua os centavos no preço!");
+            return;
+        }
     
-        if (tipo === "cadastro" && categoria === "produto") {
-            const produto = {
-                Nome: nome,
-                Preco: preco
-            };
+        const produto = {
+            Nome: nome,
+            Preco: preco
+        };
     
-            try {
+        try {
+
+            if (tipo === "cadastro" && categoria === "produto") {
                 const response = await axios.post("http://localhost:5000/cadastrarProdutos", produto);
-                fecharModal();
                 toast.success("Produto cadastrado com sucesso!");
-                // Atualizar lista de produtos
-                buscarProdutos();
-            } catch (error) {
-                console.error('Erro ao adicionar produto', error);
+            } 
+            
+            else if (tipo === "edicao" && categoria === "produto") {
+                const response = await axios.put(`http://localhost:5000/editarProduto/${ID}`, produto);
+                toast.success("Produto editado com sucesso!");
             }
+
+            fecharModal();
+            // Atualizar lista de produtos
+            buscarProdutos();
+
+        } catch (error) {
+            console.error("Erro ao processar produto!", error);
         }
     }
       
@@ -106,7 +123,3 @@ function ModalCadEdiProdServ ({ tipo, isOpen, fecharModal, item, categoria}: mod
 }
 
 export default ModalCadEdiProdServ;
-
-function buscarProdutos() {
-    throw new Error("Function not implemented.");
-}
