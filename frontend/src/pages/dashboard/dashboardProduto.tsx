@@ -5,6 +5,7 @@ import BotaoCTA from "../../components/botaoCTA/botaoCTA";
 import CardProdServ from "../../components/cardProdServ/cardProdServ";
 import ModalCadEdiProdServ from "../../components/modalCadEdiProdServ/modalCadEdiProdServ";
 import { ProdutoContext } from '../../contexts/produtoProvider';
+import NotificacaoToast from "../../components/NotificacaoToast/notificacaoToast";
 
 function DashboardProduto() {
     const { produtos } = useContext(ProdutoContext);
@@ -42,13 +43,21 @@ function DashboardProduto() {
           </p>
     
           <div>
-            {produtos.map((produto, index) => (
-             <CardProdServ key={index} nome={produto.nome} preco={produto.preco} abrirModalEdicao={() => openModalEdicao(produto)}/>
+            {produtos.map((produto) => (
+             <CardProdServ
+             ID={produto.ID}
+             key={produto.ID}
+             Nome={produto.Nome}
+             Preco={produto.Preco}
+             abrirModalEdicao={() => openModalEdicao(produto)}
+             />
             ))}
           </div>
 
           <ModalCadEdiProdServ tipo={tipo} isOpen={modalIsOpen} fecharModal={closeModal} item={produto} categoria="produto" />
     
+          <NotificacaoToast />
+          
         </section>
 
         </>

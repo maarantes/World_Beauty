@@ -77,7 +77,7 @@ function DashboardCliente() {
             NomeSocial={cliente.NomeSocial}
             Genero={cliente.Genero}
             CPF={cliente.CPF}
-            Produtos={cliente.Produtos ? cliente.Produtos.map(p => ({ Nome: p.produto.nome, quantidade: p.quantidade })) : []}
+            Produtos={cliente.Produtos ? cliente.Produtos.map(p => ({ Nome: p.produto.Nome, quantidade: p.quantidade })) : []}
             Servicos={cliente.Servicos ? cliente.Servicos.map(s => ({ Nome: s.servico.nome, quantidade: s.quantidade })) : []}
             abrirModalEdicao={() => openModalEdicao(cliente)}
           />

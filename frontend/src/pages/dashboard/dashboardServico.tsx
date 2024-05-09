@@ -43,7 +43,12 @@ function DashboardServico() {
     
           <div>
             {Servicos.map((Servico, index) => (
-             <CardServProd key={index} nome={Servico.nome} preco={Servico.preco} abrirModalEdicao={() => openModalEdicao(Servico)}/>
+             <CardServProd
+             ID={Servico.ID}
+             key={index} 
+             Nome={Servico.nome} 
+             Preco={Servico.preco} 
+             abrirModalEdicao={() => openModalEdicao(Servico)}/>
             ))}
           </div>
 

@@ -24,7 +24,7 @@ function SelectAdicionarItem({ tipo }: SelectProps) {
   };
 
   // Mapeia os produtos e os serviços para o formato esperado pelo Select
-  const opcoesProd = produtos.map(produto => ({ value: produto.nome, label: produto.nome }));
+  const opcoesProd = produtos.map(produto => ({ value: produto.Nome, label: produto.Nome }));
   const opcoesServ = Servicos.map(servico => ({ value: servico.nome, label: servico.nome }));
 
   // Se o tipo invocado não for Produto sempre vai ser Serviço

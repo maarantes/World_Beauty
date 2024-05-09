@@ -1,7 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import BotaoCTA from "../botaoCTA/botaoCTA";
 import Modal from 'react-modal';
 import "./modalCadEdiProdServ.scss"
+
+import axios from "axios";
+import { toast } from "react-toastify";
+import { ProdutoContext } from "../../contexts/produtoProvider";
 
 Modal.setAppElement('#root')
 
@@ -17,6 +21,8 @@ interface modalCadEdiProdServProps {
 }
 
 function ModalCadEdiProdServ ({ tipo, isOpen, fecharModal, item, categoria}: modalCadEdiProdServProps) {
+
+    const { buscarProdutos } = useContext(ProdutoContext);
 
     // Caso abrir o modal no modo edição ele vai pegar as informações do item ou serviço
     const [nome, setNome] = useState("");
@@ -47,9 +53,25 @@ function ModalCadEdiProdServ ({ tipo, isOpen, fecharModal, item, categoria}: mod
         },
     };
 
-    function handleSubmit(event: any) {
+    async function handleSubmit(event: any) {
         event.preventDefault();
-        // Colocar backend aqui depois
+    
+        if (tipo === "cadastro" && categoria === "produto") {
+            const produto = {
+                Nome: nome,
+                Preco: preco
+            };
+    
+            try {
+                const response = await axios.post("http://localhost:5000/cadastrarProdutos", produto);
+                fecharModal();
+                toast.success("Produto cadastrado com sucesso!");
+                // Atualizar lista de produtos
+                buscarProdutos();
+            } catch (error) {
+                console.error('Erro ao adicionar produto', error);
+            }
+        }
     }
       
     return (
@@ -71,7 +93,7 @@ function ModalCadEdiProdServ ({ tipo, isOpen, fecharModal, item, categoria}: mod
                     </div>
                     <div className="modalcad_form_item">
                         <p>Preço (em reais):</p>
-                        <input type="number" placeholder="Digite aqui..." value={preco} onChange={e => setPreco(e.target.value)}/>
+                        <input type="number" placeholder="Digite aqui..." value={preco} onChange={e => setPreco((e.target.value))}/>
                     </div>
                     <div className="modalcad_form_botao">
                         <BotaoCTA type="submit" escrito="Enviar" aparencia="primario" />
@@ -84,3 +106,7 @@ function ModalCadEdiProdServ ({ tipo, isOpen, fecharModal, item, categoria}: mod
 }
 
 export default ModalCadEdiProdServ;
+
+function buscarProdutos() {
+    throw new Error("Function not implemented.");
+}

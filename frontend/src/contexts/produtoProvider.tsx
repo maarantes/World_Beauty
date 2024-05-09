@@ -1,43 +1,42 @@
-import React, { useState, Dispatch, SetStateAction } from 'react';
+import React, { useState, Dispatch, SetStateAction, useEffect } from 'react';
+import axios from 'axios';
 
 export interface Produto {
-  nome: string;
-  preco: number;
+  ID: number,
+  Nome: string;
+  Preco: number;
 }
 
 interface ProdutoContextType {
   produtos: Produto[];
   setProdutos: Dispatch<SetStateAction<Produto[]>>;
+  buscarProdutos: () => void;
 }
 
 export const ProdutoContext = React.createContext<ProdutoContextType>({
     produtos: [],
-    setProdutos: () => {} // função vazia
+    setProdutos: () => {},
+    buscarProdutos: () => {}
 });
 
 export function ProdutoProvider({ children }: { children: React.ReactNode }) {
-  const [produtos, setProdutos] = useState<Produto[]>([
-    {
-      nome: "Maquiagem",
-      preco: 70
-    },
-    {
-      nome: "Esmalte Esmeralda",
-      preco: 80
-    },
-    {
-      nome: "Escova",
-      preco: 50
-    },
-    {
-      nome: "Tinta para cabelo",
-      preco: 40
-    }
+  const [produtos, setProdutos] = useState<Produto[]>([]);
 
-  ]);
+    const buscarProdutos = () => {
+      axios.get("http://localhost:5000/mostrarProdutos")
+        .then(response => {
+          setProdutos(response.data);
+        })
+        .catch(error => {
+          console.error("Erro ao buscar produtos", error);
+        });
+    };
+  
+    useEffect(buscarProdutos, []);
+
 
   return (
-    <ProdutoContext.Provider value={{ produtos, setProdutos }}>
+    <ProdutoContext.Provider value={{ produtos, setProdutos, buscarProdutos }}>
       {children}
     </ProdutoContext.Provider>
   );
