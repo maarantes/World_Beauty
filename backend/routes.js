@@ -13,6 +13,8 @@ module.exports = (connection) => {
       });
     });
 
+    
+    // Rota Cadastrar Cliente
     router.post("/cadastrarCliente", (req, res) => {
       const { Nome, NomeSocial, Genero, CPF } = req.body;
     
@@ -42,6 +44,8 @@ module.exports = (connection) => {
       });
     });
 
+
+    // Rota Deletar Cliente
     router.delete("/deletarCliente/:id", (req, res) => {
       let comando = `DELETE FROM Clientes WHERE ID = ${req.params.id}`;
       let query = connection.query(comando, (err, result) => {
@@ -53,6 +57,39 @@ module.exports = (connection) => {
         }
       });
     });
+
+
+    // Rota Editar Cliente
+    router.put("/editarCliente/:id", (req, res) => {
+      const { Nome, NomeSocial, Genero, CPF } = req.body;
+      const idParam = req.params.id;
+  
+      // Verificar se já existe um cliente com o mesmo ID
+      const queryVerificacao = "SELECT * FROM Clientes WHERE ID = ?";
+      connection.query(queryVerificacao, [idParam], (err, results) => {
+          if (err) {
+              console.error("Erro ao verificar cliente", err);
+              res.status(500).send("Erro ao verificar cliente");
+          } else if (results.length === 0) {
+              // Se não encontrar um cliente com o mesmo ID enviar uma resposta de erro
+              res.status(400).send("Não existe um cliente com este ID");
+          } else {
+              // Se encontrar, prosseguir com a edição
+              const queryEdicao = "UPDATE Clientes SET Nome = ?, NomeSocial = ?, Genero = ?, CPF = ? WHERE ID = ?";
+              const values = [Nome, NomeSocial, Genero, CPF, idParam];
+  
+              connection.query(queryEdicao, values, (err, results) => {
+                  if (err) {
+                      console.error("Erro ao editar cliente", err);
+                      res.status(500).send("Erro ao editar cliente");
+                  } else {
+                      res.status(200).send("Cliente editado com sucesso");
+                  }
+              });
+          }
+      });
+  });
+  
     
   
     return router;
