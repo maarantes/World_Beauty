@@ -5,6 +5,7 @@ import Navbar from "../../components/navbar/navbar";
 import CardCliente from "../../components/cardCliente/cardCliente";
 import BotaoCTA from "../../components/botaoCTA/botaoCTA";
 import ModalCadastrarEditarCliente from "../../components/modalCadastrarEditarCliente/modalCadastrarEditarCliente";
+import NotificacaoToast from '../../components/NotificacaoToast/notificacaoToast';
 
 function DashboardCliente() {
 
@@ -24,14 +25,21 @@ function DashboardCliente() {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [tipo, setTipo] = useState<"cadastro" | "edicao">("cadastro");
     // Caso abrir o modal no modo edição ele vai pegar as informações do usuário
-    const [usuario, setUsuario] = useState<{nome: string, nome_social: string, genero: string, cpf: number} | undefined>(undefined);
+    const [usuario, setUsuario] = useState<{ID: number, nome: string, nome_social: string, genero: string, cpf: number} | undefined>(undefined);
 
     function openModalCadastro() {
       setTipo("cadastro");
       setModalIsOpen(true);
     }
 
-    function openModalEdicao() {
+    function openModalEdicao(cliente: any) {
+      setUsuario({
+        ID: cliente.ID,
+        nome: cliente.Nome,
+        nome_social: cliente.NomeSocial,
+        genero: cliente.Genero,
+        cpf: cliente.CPF
+      });
       setTipo("edicao"); // Definir o tipo para "edicao" quando o botão de editar usuário do Card Cliente for clicado
       setModalIsOpen(true);
     }
@@ -71,20 +79,15 @@ function DashboardCliente() {
             CPF={cliente.CPF}
             Produtos={cliente.Produtos ? cliente.Produtos.map(p => ({ Nome: p.produto.nome, quantidade: p.quantidade })) : []}
             Servicos={cliente.Servicos ? cliente.Servicos.map(s => ({ Nome: s.servico.nome, quantidade: s.quantidade })) : []}
-            abrirModalEdicao={() => {
-              setUsuario({
-                nome: cliente.Nome,
-                nome_social: cliente.NomeSocial,
-                genero: cliente.Genero,
-                cpf: cliente.CPF
-              });
-              openModalEdicao();
-            }}
+            abrirModalEdicao={() => openModalEdicao(cliente)}
           />
         ))}
       </div>
 
       <ModalCadastrarEditarCliente tipo={tipo} isOpen={modalIsOpen} fecharModal={closeModal} usuario={usuario} />
+
+      {/* Container do Toast para as chamadas de Toast do Card Cliente e do Modal Cadastrar Editar */}
+      <NotificacaoToast />
 
     </section>
     </>

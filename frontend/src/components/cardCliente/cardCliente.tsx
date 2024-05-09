@@ -6,6 +6,7 @@ import ModalAdicionarItem from "../modalAdicionarItem/modalAdicionarItem";
 import axios from "axios";
 
 import { ClienteContext } from "../../contexts/clienteProvider";
+import { toast } from 'react-toastify';
 
 interface CardClienteProps {
     ID: number;
@@ -53,7 +54,7 @@ function CardCliente({ ID, Nome, NomeSocial, Genero, CPF, Produtos, Servicos, ab
         axios.delete(`http://localhost:5000/deletarCliente/${ID}`)
             .then(response => {
                 console.log(response);
-                // Tentar criar ticket de sucesso depois já que não foi de primeira
+                toast.success("Cliente deletado com sucesso!")
                 // Atualizar lista de clientes
                 buscarClientes();
             })
