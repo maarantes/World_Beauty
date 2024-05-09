@@ -13,7 +13,18 @@ module.exports = (connection) => {
       });
     });
 
-    
+    router.get("/mostrarProdutos", (req, res) => {
+      connection.query("SELECT * FROM Produtos", (err, results) => {
+        if (err) {
+          console.error("Erro ao buscar registros", err);
+          res.status(500).send("Erro ao buscar registros");
+        } else {
+          res.json(results);
+        }
+      });
+    });
+
+
     // Rota Cadastrar Cliente
     router.post("/cadastrarCliente", (req, res) => {
       const { Nome, NomeSocial, Genero, CPF } = req.body;
@@ -58,6 +69,19 @@ module.exports = (connection) => {
       });
     });
 
+    // Rota Deletar Produto
+    router.delete("/deletarProduto/:id", (req, res) => {
+      let comando = `DELETE FROM Produtos WHERE ID = ${req.params.id}`;
+      let query = connection.query(comando, (err, result) => {
+        if (err) {
+          console.error("Erro ao deletar produto", err);
+          res.status(500).send("Erro ao deletar produto");
+        } else {
+          res.send("Produto deletado com sucesso!");
+        }
+      });
+    });
+
 
     // Rota Editar Cliente
     router.put("/editarCliente/:id", (req, res) => {
@@ -89,8 +113,22 @@ module.exports = (connection) => {
           }
       });
   });
-  
+
+
+  //Rota Criar Produto
+  router.post('/cadastrarProdutos', (req, res) => {
+    let produto = req.body;
+    var sql = 'INSERT INTO Produtos (Nome, Preco) VALUES (?, ?)';
+    connection.query(sql, [produto.Nome, produto.Preco], (err, result) => {
+        if (err) {
+            console.error('Erro ao inserir produto:', err);
+            res.status(500).send(`Erro ao adicionar produto: ${err.message}`);
+        } else {
+            res.status(201).send(`Produto adicionado com ID: ${result.insertId}`);
+        }
+    });
+});
     
-  
     return router;
+
 };
