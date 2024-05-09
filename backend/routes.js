@@ -128,6 +128,37 @@ module.exports = (connection) => {
         }
     });
 });
+
+  // Rota Editar Cliente
+  router.put("/editarProduto/:id", (req, res) => {
+    const { Nome, Preco } = req.body;
+    const idParam = req.params.id;
+
+    // Verificar se já existe um produto com o mesmo ID
+    const queryVerificacao = "SELECT * FROM Produtos WHERE ID = ?";
+    connection.query(queryVerificacao, [idParam], (err, results) => {
+        if (err) {
+            console.error("Erro ao verificar produto", err);
+            res.status(500).send("Erro ao verificar produto");
+        } else if (results.length === 0) {
+            // Se não encontrar um produto com o mesmo ID enviar uma resposta de erro
+            res.status(400).send("Não existe um produto com este ID");
+        } else {
+            // Se encontrar, prosseguir com a edição
+            const queryEdicao = "UPDATE Produtos SET Nome = ?, Preco = ? WHERE ID = ?";
+            const values = [Nome, Preco, idParam];
+
+            connection.query(queryEdicao, values, (err, results) => {
+                if (err) {
+                    console.error("Erro ao editar produto", err);
+                    res.status(500).send("Erro ao editar produto");
+                } else {
+                    res.status(200).send("Produto editado com sucesso");
+                }
+            });
+        }
+    });
+});
     
     return router;
 
