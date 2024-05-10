@@ -2,11 +2,13 @@ import React, { useState, useContext } from "react";
 import "./dashboard.scss"
 import Navbar from "../../components/navbar/navbar";
 import BotaoCTA from "../../components/botaoCTA/botaoCTA";
-import CardServProd from "../../components/cardProdServ/cardProdServ";
+import CardProdServ from "../../components/cardProdServ/cardProdServ";
 import ModalCadEdiProdServ from "../../components/modalCadEdiProdServ/modalCadEdiProdServ";
 import { ServicoContext } from '../../contexts/servicoProvider';
+import NotificacaoToast from "../../components/NotificacaoToast/notificacaoToast";
 
 function DashboardServico() {
+  
     const { Servicos } = useContext(ServicoContext);
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -18,8 +20,12 @@ function DashboardServico() {
       setModalIsOpen(true);
     }
 
-    function openModalEdicao(ServicoParaEditar: any) {
-      setServico(ServicoParaEditar);
+    function openModalEdicao(Servico: any) {
+      setServico({
+        ID: Servico.ID,
+        nome: Servico.Nome,
+        preco: Servico.Preco
+      });
       setTipo("edicao");
       setModalIsOpen(true);
     }
@@ -43,17 +49,20 @@ function DashboardServico() {
     
           <div>
             {Servicos.map((Servico, index) => (
-             <CardServProd
+             <CardProdServ
              ID={Servico.ID}
              key={index} 
-             Nome={Servico.nome} 
-             Preco={Servico.preco} 
+             Nome={Servico.Nome} 
+             Preco={Servico.Preco}
+             Tipo="serviço"
              abrirModalEdicao={() => openModalEdicao(Servico)}/>
             ))}
           </div>
 
           <ModalCadEdiProdServ tipo={tipo} isOpen={modalIsOpen} fecharModal={closeModal} item={Servico} categoria="serviço" />
     
+          <NotificacaoToast />
+          
         </section>
 
         </>

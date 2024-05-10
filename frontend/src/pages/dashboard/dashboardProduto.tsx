@@ -54,6 +54,7 @@ function DashboardProduto() {
              key={produto.ID}
              Nome={produto.Nome}
              Preco={produto.Preco}
+             Tipo="produto"
              abrirModalEdicao={() => openModalEdicao(produto)}
              />
             ))}

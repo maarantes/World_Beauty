@@ -6,6 +6,7 @@ import "./modalCadEdiProdServ.scss"
 import axios from "axios";
 import { toast } from "react-toastify";
 import { ProdutoContext } from "../../contexts/produtoProvider";
+import { ServicoContext } from "../../contexts/servicoProvider";
 
 Modal.setAppElement('#root')
 
@@ -24,6 +25,7 @@ interface modalCadEdiProdServProps {
 function ModalCadEdiProdServ ({ tipo, isOpen, fecharModal, item, categoria}: modalCadEdiProdServProps) {
 
     const { buscarProdutos } = useContext(ProdutoContext);
+    const { buscarServicos } = useContext(ServicoContext);
 
     // Caso abrir o modal no modo edição ele vai pegar as informações do item ou serviço
 
@@ -39,10 +41,6 @@ function ModalCadEdiProdServ ({ tipo, isOpen, fecharModal, item, categoria}: mod
     }, [item]);
     
     const [modalIsOpen, setModalIsOpen] = useState(false);
-
-    function openModal() {
-        setModalIsOpen(true);
-    }
 
     function closeModal() {
         setModalIsOpen(false);
@@ -65,7 +63,7 @@ function ModalCadEdiProdServ ({ tipo, isOpen, fecharModal, item, categoria}: mod
             return;
         }
     
-        const produto = {
+        const item = {
             Nome: nome,
             Preco: preco
         };
@@ -73,18 +71,32 @@ function ModalCadEdiProdServ ({ tipo, isOpen, fecharModal, item, categoria}: mod
         try {
 
             if (tipo === "cadastro" && categoria === "produto") {
-                const response = await axios.post("http://localhost:5000/cadastrarProdutos", produto);
+                const response = await axios.post("http://localhost:5000/cadastrarProdutos", item);
                 toast.success("Produto cadastrado com sucesso!");
             } 
             
             else if (tipo === "edicao" && categoria === "produto") {
-                const response = await axios.put(`http://localhost:5000/editarProduto/${ID}`, produto);
+                const response = await axios.put(`http://localhost:5000/editarProduto/${ID}`, item);
                 toast.success("Produto editado com sucesso!");
             }
 
+            else if (tipo === "cadastro" && categoria === "serviço") {
+                const response = await axios.post("http://localhost:5000/cadastrarServicos", item);
+                toast.success("Serviço cadastrado com sucesso!");
+            }
+
+            else if (tipo === "edicao" && categoria === "serviço") {
+                const response = await axios.put(`http://localhost:5000/editarServico/${ID}`, item);
+                toast.success("Serviço editado com sucesso!");
+            }
+
             fecharModal();
-            // Atualizar lista de produtos
-            buscarProdutos();
+            // Atualizar lista de produtos ou serviços
+            if (categoria === "produto") {
+                buscarProdutos();
+            } else if (categoria === "serviço") {
+                buscarServicos();
+            }
 
         } catch (error) {
             console.error("Erro ao processar produto!", error);
@@ -100,7 +112,9 @@ function ModalCadEdiProdServ ({ tipo, isOpen, fecharModal, item, categoria}: mod
             style={estiloModal}
                 >
                 <div className="modalcad_escrito">
-                    <h1>{tipo === 'edicao' ? `Editar ${categoria}` : `Cadastrar ${categoria}`}</h1>
+                    {/* Deixar primeira letra da categoria em maiúsculo*/}
+                    <h1>{tipo === 'edicao' ? `Editar ${categoria.charAt(0).toUpperCase() + categoria.slice(1)}` 
+                    : `Cadastrar ${categoria.charAt(0).toUpperCase() + categoria.slice(1)}`}</h1>
                     <p>Preencha as informações abaixo.</p>
                 </div>
                 <form className="modalcad_form" onSubmit={handleSubmit}>
