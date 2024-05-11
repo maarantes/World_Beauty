@@ -71,22 +71,22 @@ function ModalCadEdiProdServ ({ tipo, isOpen, fecharModal, item, categoria}: mod
         try {
 
             if (tipo === "cadastro" && categoria === "produto") {
-                const response = await axios.post("http://localhost:5000/cadastrarProdutos", item);
+                const response = await axios.post("http://localhost:5000/produtos/cadastrar", item);
                 toast.success("Produto cadastrado com sucesso!");
             } 
             
             else if (tipo === "edicao" && categoria === "produto") {
-                const response = await axios.put(`http://localhost:5000/editarProduto/${ID}`, item);
+                const response = await axios.put(`http://localhost:5000/produtos/editar/${ID}`, item);
                 toast.success("Produto editado com sucesso!");
             }
 
             else if (tipo === "cadastro" && categoria === "serviço") {
-                const response = await axios.post("http://localhost:5000/cadastrarServicos", item);
+                const response = await axios.post("http://localhost:5000/servicos/cadastrar", item);
                 toast.success("Serviço cadastrado com sucesso!");
             }
 
             else if (tipo === "edicao" && categoria === "serviço") {
-                const response = await axios.put(`http://localhost:5000/editarServico/${ID}`, item);
+                const response = await axios.put(`http://localhost:5000/servicos/editar/${ID}`, item);
                 toast.success("Serviço editado com sucesso!");
             }
 

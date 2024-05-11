@@ -23,7 +23,7 @@ export function ServicoProvider({ children }: { children: React.ReactNode }) {
   const [Servicos, setServicos] = useState<Servico[]>([]);
     
     const buscarServicos = () => {
-      axios.get("http://localhost:5000/mostrarServicos")
+      axios.get("http://localhost:5000/servicos/mostrar")
         .then(response => {
           setServicos(response.data);
         })

@@ -51,7 +51,7 @@ function CardCliente({ ID, Nome, NomeSocial, Genero, CPF, Produtos, Servicos, ab
     const { buscarClientes } = useContext(ClienteContext);
 
     function deletarCliente(ID: number) {
-        axios.delete(`http://localhost:5000/deletarCliente/${ID}`)
+        axios.delete(`http://localhost:5000/clientes/deletar/${ID}`)
             .then(response => {
                 console.log(response);
                 toast.success("Cliente deletado com sucesso!")

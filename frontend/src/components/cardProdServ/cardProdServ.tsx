@@ -21,8 +21,8 @@ function CardProdServ({ ID, Nome, Preco, Tipo, abrirModalEdicao, }: CardProps) {
 
     function deletarItem(ID: number) {
         const url = Tipo === "produto" 
-            ? `http://localhost:5000/deletarProduto/${ID}`
-            : `http://localhost:5000/deletarServico/${ID}`;
+            ? `http://localhost:5000/produtos/deletar/${ID}`
+            : `http://localhost:5000/servicos/deletar/${ID}`;
 
         axios.delete(url)
             .then(response => {

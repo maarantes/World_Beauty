@@ -1,8 +1,11 @@
 const express = require("express");
 const mysql = require("mysql2");
-const cors = require('cors');
+const cors = require("cors");
 const app = express();
 const port = 5000;
+
+app.use(cors());
+app.use(express.json());
 
 const connection = mysql.createConnection({
   host: "localhost",
@@ -19,11 +22,13 @@ connection.connect((err) => {
   }
 });
 
-const routes = require("./routes")(connection);
-app.use(express.json());
-app.use(cors());
-app.use("/", routes);
+const rotasClientes = require("./rotas/rotasClientes")(connection);
+const rotasProdutos = require("./rotas/rotasProdutos")(connection);
+const rotasServicos = require("./rotas/rotasServicos")(connection);
 
+app.use("/clientes", rotasClientes);
+app.use("/produtos", rotasProdutos);
+app.use("/servicos", rotasServicos);
 
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);

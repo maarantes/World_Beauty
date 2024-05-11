@@ -91,7 +91,7 @@ const estiloSelect = {
 
     //O form do modal vai chamar esta função com este endpoint quando ele estiver no modo edição
     function editarCliente(cliente: any) {
-        axios.put(`http://localhost:5000/editarCliente/${ID}`, cliente)
+        axios.put(`http://localhost:5000/clientes/editar/${ID}`, cliente)
             .then(response => {
                 fecharModal();
                 toast.success("Cliente editado com sucesso!");
@@ -133,7 +133,7 @@ const estiloSelect = {
         };
 
         if (tipo === "cadastro") {
-            axios.post("http://localhost:5000/cadastrarCliente", cliente)
+            axios.post("http://localhost:5000/clientes/cadastrar", cliente)
                 .then(response => {
                     console.log(response.data);
                     fecharModal();

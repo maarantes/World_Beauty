@@ -39,7 +39,7 @@ export function ClienteProvider({ children }: { children: React.ReactNode }) {
   const [Clientes, setClientes] = useState<Cliente[]>([]);
 
   const buscarClientes = () => {
-    axios.get("http://localhost:5000/mostrarClientes")
+    axios.get("http://localhost:5000/clientes/mostrar")
       .then(response => {
         setClientes(response.data);
       })
