@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext } from "react";
 import "./cardCliente.scss"
 import BotaoCTA from "../botaoCTA/botaoCTA";
 import ModalAdicionarItem from "../modalAdicionarItem/modalAdicionarItem";
@@ -6,7 +6,8 @@ import ModalAdicionarItem from "../modalAdicionarItem/modalAdicionarItem";
 import axios from "axios";
 
 import { ClienteContext } from "../../contexts/clienteProvider";
-import { toast } from 'react-toastify';
+import { CarrinhoContext } from "../../contexts/carrinhoProvider";
+import { toast } from "react-toastify";
 
 interface CardClienteProps {
     ID: number;
@@ -21,6 +22,11 @@ interface CardClienteProps {
 }
 
 function CardCliente({ ID, Nome, NomeSocial, Genero, CPF, Produtos, Servicos, abrirModalEdicao }: CardClienteProps) {
+
+    const { Carrinho, setCarrinho } = useContext(CarrinhoContext);
+    const { buscarCarrinho } = useContext(CarrinhoContext);
+
+    const itensCarrinho = Carrinho.filter((item: any) => item.ClienteID === ID);
 
     // Abre o modal e fala se ele vai adicionar um produto ou serviço
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -64,6 +70,19 @@ function CardCliente({ ID, Nome, NomeSocial, Genero, CPF, Produtos, Servicos, ab
     return () => {};
     }
 
+    function deletarProduto(ID: number, ProdutoID: number) {
+        axios.delete(`http://localhost:5000/carrinho/deletar/${ID}/${ProdutoID}`)
+            .then(response => {
+                console.log(response);
+                toast.success("Produto deletado com sucesso!")
+                // Atualizar lista de clientes
+                buscarCarrinho();
+            })
+            .catch(error => {
+                console.error("Erro ao deletar cliente", error);
+    });
+    }
+
     return (
         
         <>
@@ -88,11 +107,11 @@ function CardCliente({ ID, Nome, NomeSocial, Genero, CPF, Produtos, Servicos, ab
                 <hr className="cacli_divisoria" /> 
                 <div className="cacli_baixo_secao">
                     <div className="cacli_baixo_secao_esq">
-                        <p className="cacli_titulo">Carrinho ({Produtos.length})</p>
-                        {(Produtos || []).map((produto, index) => (
+                        <p className="cacli_titulo">Carrinho ({itensCarrinho.length})</p>
+                        {itensCarrinho.map((item, index) => (
                         <div key={index} className="cacli_item">
-                            <button className="cacli_botao_cima cacli_lixeira cacli_menor"> <img src="img/icon_lixeira.svg" /> </button>
-                            <p>{produto.Nome}: {produto.quantidade}</p>
+                            <button className="cacli_botao_cima cacli_lixeira cacli_menor" onClick={() => deletarProduto(ID, item.ProdutoID)}> <img src="img/icon_lixeira.svg" /> </button>
+                            <p>{item.Nome}: {item.Quantidade}</p>
                         </div>
                     ))}
                     </div>
@@ -120,7 +139,7 @@ function CardCliente({ ID, Nome, NomeSocial, Genero, CPF, Produtos, Servicos, ab
             </div>
             
             {/* Modal adicionar produto ou serviço */}
-            <ModalAdicionarItem closeModal={closeModal} modalIsOpen={modalIsOpen} tipo={tipo} />
+            <ModalAdicionarItem closeModal={closeModal} modalIsOpen={modalIsOpen} tipo={tipo} clienteID={ID} />
 
         </div>
         </>

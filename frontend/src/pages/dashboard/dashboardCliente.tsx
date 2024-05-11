@@ -6,6 +6,7 @@ import CardCliente from "../../components/cardCliente/cardCliente";
 import BotaoCTA from "../../components/botaoCTA/botaoCTA";
 import ModalCadastrarEditarCliente from "../../components/modalCadastrarEditarCliente/modalCadastrarEditarCliente";
 import NotificacaoToast from '../../components/NotificacaoToast/notificacaoToast';
+import { CarrinhoProvider } from '../../contexts/carrinhoProvider';
 
 function DashboardCliente() {
 
@@ -70,9 +71,9 @@ function DashboardCliente() {
 
       <div>
       {filtrarClientes() && filtrarClientes().map(cliente => (
-          <CardCliente
+      <CarrinhoProvider ClienteID={cliente.ID} key={cliente.ID}>
+        <CardCliente
             ID={cliente.ID}
-            key={cliente.ID}
             Nome={cliente.Nome}
             NomeSocial={cliente.NomeSocial}
             Genero={cliente.Genero}
@@ -80,8 +81,10 @@ function DashboardCliente() {
             Produtos={cliente.Produtos ? cliente.Produtos.map(p => ({ Nome: p.produto.Nome, quantidade: p.quantidade })) : []}
             Servicos={cliente.Servicos ? cliente.Servicos.map(s => ({ Nome: s.servico.Nome, quantidade: s.quantidade })) : []}
             abrirModalEdicao={() => openModalEdicao(cliente)}
-          />
-        ))}
+        />
+      </CarrinhoProvider>
+))}
+
       </div>
 
       <ModalCadastrarEditarCliente tipo={tipo} isOpen={modalIsOpen} fecharModal={closeModal} usuario={usuario} />
