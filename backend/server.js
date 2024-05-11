@@ -22,13 +22,15 @@ connection.connect((err) => {
   }
 });
 
-const rotasClientes = require("./rotas/rotasClientes")(connection);
-const rotasProdutos = require("./rotas/rotasProdutos")(connection);
-const rotasServicos = require("./rotas/rotasServicos")(connection);
+const rotasClientes = require("./Rotas/rotasClientes")(connection);
+const rotasProdutos = require("./Rotas/rotasProdutos")(connection);
+const rotasServicos = require("./Rotas/rotasServicos")(connection);
+const rotasCarrinho = require("./Rotas/rotasCarrinho")(connection);
 
 app.use("/clientes", rotasClientes);
 app.use("/produtos", rotasProdutos);
 app.use("/servicos", rotasServicos);
+app.use("/carrinho", rotasCarrinho);
 
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
