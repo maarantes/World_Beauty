@@ -61,15 +61,24 @@ module.exports = (connection) => {
 
     // Rota de deletar
     router.delete("/deletar/:id", (req, res) => {
-        let comando = `DELETE FROM Servicos WHERE ID = ${req.params.id}`;
+        // Primeiro deleta o serviço de todos os carrinhos que tem esseserviço, para não quebrar o banco
+        let comando = `DELETE FROM CarrinhoServicos WHERE ServicoID = ${req.params.id}`;
         let query = connection.query(comando, (err, result) => {
-        if (err) {
-            console.error("Erro ao deletar serviço", err);
-            res.status(500).send("Erro ao deletar serviço");
-        } else {
-        res.send("Serviço deletado com sucesso!");
-        }
-    });
+            if (err) {
+                console.error("Erro ao deletar serviço do carrinho", err);
+                res.status(500).send("Erro ao deletar serviço do carrinho");
+            } else {
+                comando = `DELETE FROM Servicos WHERE ID = ${req.params.id}`;
+                query = connection.query(comando, (err, result) => {
+                    if (err) {
+                        console.error("Erro ao deletar serviço", err);
+                        res.status(500).send("Erro ao deletar serviço");
+                    } else {
+                        res.send("Serviço deletado com sucesso!");
+                    }
+                });
+            }
+        });
     });
     
     return router;

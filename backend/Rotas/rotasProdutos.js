@@ -28,7 +28,7 @@ module.exports = (connection) => {
         });
     });
 
-    // Rota de deletar
+    // Rota de editar
     router.put("/editar/:id", (req, res) => {
         const { Nome, Preco } = req.body;
         const idParam = req.params.id;
