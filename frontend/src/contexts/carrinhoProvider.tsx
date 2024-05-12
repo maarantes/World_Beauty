@@ -3,9 +3,10 @@ import axios from 'axios';
 
 interface Item {
     ClienteID: number;
-    ProdutoID: number;
+    ItemID: number;
     Quantidade: number;
     Nome: string;
+    Tipo: "produto" | "servico";
 }
 
 interface CarrinhoContextType {

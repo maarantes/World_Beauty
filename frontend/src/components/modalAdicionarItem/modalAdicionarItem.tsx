@@ -46,28 +46,44 @@ function ModalAdicionarItem ({ closeModal, modalIsOpen, tipo, clienteID }: Modal
         },
       };
 
-      const handleSubmit = async (event: any) => {
+      const handleSubmit = async (event: any, tipo: string) => {
         event.preventDefault();
+
+        if (!value) {
+            toast.warning("Preencha a quantidade!");
+            return;
+        }
     
         if (selectedOption) {
             const itemID = selectedOption.value;
+            let endpoint = "";
+    
+            // Decide o endpoint baseado no tipo
+            if (tipo === "produto") {
+                endpoint = "adicionarProduto";
+            } else if (tipo === "serviço") {
+                endpoint = "adicionarServico";
+            } else {
+                console.error('Tipo de item desconhecido:', tipo);
+                return;
+            }
     
             try {
-                await axios.post("http://localhost:5000/carrinho/adicionarProduto", {
+                await axios.post(`http://localhost:5000/carrinho/${endpoint}`, {
                     clienteId: clienteID,
                     itemID,
                     quantidade: value
                 });
     
-                toast.success("Produto adicionado com sucesso!");
+                toast.success(`${tipo.charAt(0).toUpperCase() + tipo.slice(1)} adicionado com sucesso!`);
                 buscarCarrinho();
                 setValue("");
                 closeModal();
             } catch (error) {
-                console.error("Erro ao adicionar produto ao carrinho:", error);
+                console.error(`Erro ao adicionar ${tipo} ao carrinho:`, error);
             }
         } else {
-            console.error('Nenhum produto selecionado');
+            console.error('Nenhum item selecionado');
         }
     };
     
@@ -83,7 +99,7 @@ function ModalAdicionarItem ({ closeModal, modalIsOpen, tipo, clienteID }: Modal
                     <h1>Adicionar {tipo.charAt(0).toUpperCase() + tipo.slice(1)}</h1>
                     <p>Selecione o {tipo} e a quantidade abaixo.</p>
                 </div>
-                <form className="modal_form" onSubmit={handleSubmit}>
+                <form className="modal_form" onSubmit={(event) => handleSubmit(event, tipo)}>
                     <SelectAdicionarItem tipo={tipo} setSelectedOption={setSelectedOption} />
                     <input type="number" placeholder="Digite aqui..." min="1" value={value} onChange={handleChange}/>
                     <div className="modal_form_botao">

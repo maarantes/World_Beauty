@@ -21,7 +21,7 @@ interface CardClienteProps {
     abrirModalEdicao: () => void;
 }
 
-function CardCliente({ ID, Nome, NomeSocial, Genero, CPF, Produtos, Servicos, abrirModalEdicao }: CardClienteProps) {
+function CardCliente({ ID, Nome, NomeSocial, Genero, CPF, abrirModalEdicao }: CardClienteProps) {
 
     const { Carrinho, setCarrinho } = useContext(CarrinhoContext);
     const { buscarCarrinho } = useContext(CarrinhoContext);
@@ -71,10 +71,23 @@ function CardCliente({ ID, Nome, NomeSocial, Genero, CPF, Produtos, Servicos, ab
     }
 
     function deletarProduto(ID: number, ProdutoID: number) {
-        axios.delete(`http://localhost:5000/carrinho/deletar/${ID}/${ProdutoID}`)
+        axios.delete(`http://localhost:5000/carrinho/deletarProduto/${ID}/${ProdutoID}`)
             .then(response => {
                 console.log(response);
                 toast.success("Produto deletado com sucesso!")
+                // Atualizar lista de clientes
+                buscarCarrinho();
+            })
+            .catch(error => {
+                console.error("Erro ao deletar cliente", error);
+    });
+    }
+
+    function deletarServico(ID: number, ServicoID: number) {
+        axios.delete(`http://localhost:5000/carrinho/deletarServico/${ID}/${ServicoID}`)
+            .then(response => {
+                console.log(response);
+                toast.success("Serviço deletado com sucesso!")
                 // Atualizar lista de clientes
                 buscarCarrinho();
             })
@@ -107,13 +120,17 @@ function CardCliente({ ID, Nome, NomeSocial, Genero, CPF, Produtos, Servicos, ab
                 <hr className="cacli_divisoria" /> 
                 <div className="cacli_baixo_secao">
                     <div className="cacli_baixo_secao_esq">
-                        <p className="cacli_titulo">Carrinho ({itensCarrinho.length})</p>
-                        {itensCarrinho.map((item, index) => (
-                        <div key={index} className="cacli_item">
-                            <button className="cacli_botao_cima cacli_lixeira cacli_menor" onClick={() => deletarProduto(ID, item.ProdutoID)}> <img src="img/icon_lixeira.svg" /> </button>
-                            <p>{item.Nome}: {item.Quantidade}</p>
-                        </div>
-                    ))}
+                        <p className="cacli_titulo">Carrinho ({itensCarrinho.filter(item => item.Tipo === "produto").length})</p>
+                        {itensCarrinho.map((item, index) => {
+                        if (item.Tipo === "produto") {
+                            return (
+                            <div key={index} className="cacli_item">
+                                <button className="cacli_botao_cima cacli_lixeira cacli_menor" onClick={() => deletarProduto(ID, item.ItemID)}> <img src="img/icon_lixeira.svg" /> </button>
+                                <p>{item.Nome}: {item.Quantidade}</p>
+                            </div>
+                        );
+                    }
+                    })}
                     </div>
                     <div className="cacli_baixo_secao_dir">
                     <BotaoCTA escrito="Adicionar Prod." aparencia="secundario" onClick={() => openModal("produto")} />
@@ -124,13 +141,17 @@ function CardCliente({ ID, Nome, NomeSocial, Genero, CPF, Produtos, Servicos, ab
 
                 <div className="cacli_baixo_secao">
                     <div className="cacli_baixo_secao_esq">
-                        <p className="cacli_titulo">Serviços Consumidos ({Servicos.length})</p>
-                        {(Servicos || []).map((servico, index) => (
-                        <div key={index} className="cacli_item">
-                            <button className="cacli_botao_cima cacli_lixeira cacli_menor"> <img src="img/icon_lixeira.svg" /> </button>
-                            <p>{servico.Nome}: {servico.quantidade}</p>
-                        </div>
-                    ))}
+                        <p className="cacli_titulo">Serviços Consumidos ({itensCarrinho.filter(item => item.Tipo === "servico").length})</p>
+                        {itensCarrinho.map((item, index) => {
+                        if (item.Tipo === "servico") {
+                            return (
+                            <div key={index} className="cacli_item">
+                                <button className="cacli_botao_cima cacli_lixeira cacli_menor" onClick={() => deletarServico(ID, item.ItemID)}> <img src="img/icon_lixeira.svg" /> </button>
+                                <p>{item.Nome}: {item.Quantidade}</p>
+                            </div>
+                        );
+                    }
+                    })}
                     </div>
                     <div className="cacli_baixo_secao_dir">
                     <BotaoCTA escrito="Adicionar Serv." aparencia="secundario" onClick={() => openModal("serviço")} />
