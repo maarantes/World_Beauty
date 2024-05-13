@@ -22,15 +22,20 @@ function PaginaListagens() {
 
     const [Genero, setGenero] = useState("");
 
+    // Mudar a tabela para 3 colunas se ela for produtos famosos
+    const [TabelaProdutosGenero, setTabelaProdutosGenero] = useState(false);
+
+
 
     const buscarTopClientesQTD = async () => {
         try {
             const response = await axios.get("http://localhost:5000/listagens/topClientesQTD");
-            // Armazene os dados no estado
+
             setClientes(response.data);
             setMostrarTabela(true);
             setTextoCabecalho("Quantidade");
             setTitulo("OUTPUT: Top 10 clientes que mais consumiram em quantidade");
+            setTabelaProdutosGenero(false);
         } catch (error) {
             console.error("Erro ao buscar os clientes:", error);
         }
@@ -39,13 +44,29 @@ function PaginaListagens() {
     const buscarTopClientesValor = async () => {
         try {
             const response = await axios.get("http://localhost:5000/listagens/topClientesValor");
-            // Armazene os dados no estado
+
             setClientes(response.data);
             setMostrarTabela(true);
             setTextoCabecalho("Valor total");
             setTitulo("OUTPUT: Top 05 clientes que mais consumiram em valor");
+            setTabelaProdutosGenero(false);
         } catch (error) {
             console.error("Erro ao buscar os clientes:", error);
+        }
+    };
+
+    const buscarTopProdutosGenero = async (genero: string) => {
+        try {
+            const response = await axios.get(`http://localhost:5000/listagens/topProdutos/${genero}`);
+            // Armazene os dados no estado
+            setClientes(response.data);
+            setMostrarTabela(true);
+            setTextoCabecalho("Quantidade");
+            let generoLetraMaiuscula = genero.charAt(0).toUpperCase() + genero.slice(1);
+            setTitulo(`OUTPUT: Produtos mais famosos do gênero ${generoLetraMaiuscula}`);
+            setTabelaProdutosGenero(true);
+        } catch (error) {
+            console.error("Erro ao buscar os produtos:", error);
         }
     };
 
@@ -72,6 +93,7 @@ function PaginaListagens() {
 
     const handleChange = (option: any) => {
         setGenero(option);
+        buscarTopProdutosGenero(option.value);
     };
 
     return (
@@ -104,28 +126,40 @@ function PaginaListagens() {
             <p className="list_output_titulo">{titulo}</p>
 
             <table className="list_tabela">
-                {/* Cabeçalho da tabela */}
-                {MostrarTabela && (
-                <thead>
-                    <tr>
-                        <th>Nome</th>
+        {MostrarTabela && (
+        <thead>
+            <tr>
+                <th>Posição</th>
+                <th>Nome</th>
+                {TabelaProdutosGenero ? (
+                    <th>{TextoCabecalho}</th>
+                ) : (
+                    <>
                         <th>ID</th>
                         <th>{TextoCabecalho}</th>
-                    </tr>
-                </thead>
+                    </>
                 )}
-                <tbody>
-                    {clientes.map((cliente, index) => (
-                        <tr key={index}>
-                            <td>{cliente.Nome}</td>
-                            <td>{cliente.ClienteID}</td>
-                            <td>{cliente.Total}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+            </tr>
+        </thead>
+        )}
+        <tbody>
+            {clientes.map((cliente, index) => (
+                <tr key={index}>
+                    <td style={{width: "10%"}}>{index + 1}</td>
+                    <td style={{width: "30%"}}>{cliente.Nome}</td>
+                    {TabelaProdutosGenero ? (
+                        <td style={{width: "30%"}}> {cliente.Total}</td>
+                    ) : (
+                        <>
+                            <td style={{width: "30%"}}>{cliente.ClienteID}</td>
+                            <td style={{width: "30%"}}> {cliente.Total}</td>
+                        </>
+                    )}
+                </tr>
+            ))}
+        </tbody>
+    </table>
         </div>
-
 
     </section>
     </>
