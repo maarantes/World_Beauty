@@ -47,6 +47,45 @@ module.exports = (connection) => {
             }
         });
     });
+
+    router.get("/topProdutos/:genero", (req, res) => {
+        const genero = req.params.genero;
+        let query = "";
+        let params = [];
+    
+        // Sem cláusula WHERE de Gênero
+        if (genero === "tudo") {
+            query = `
+                SELECT Produtos.Nome, SUM(CarrinhoProdutos.Quantidade) as Total
+                FROM CarrinhoProdutos
+                JOIN Produtos ON CarrinhoProdutos.ProdutoID = Produtos.ID
+                JOIN Clientes ON CarrinhoProdutos.ClienteID = Clientes.ID
+                GROUP BY Produtos.Nome
+                ORDER BY Total DESC
+                LIMIT 10`;
+        } else {
+            query = `
+                SELECT Produtos.Nome, SUM(CarrinhoProdutos.Quantidade) as Total
+                FROM CarrinhoProdutos
+                JOIN Produtos ON CarrinhoProdutos.ProdutoID = Produtos.ID
+                JOIN Clientes ON CarrinhoProdutos.ClienteID = Clientes.ID
+                WHERE Clientes.Genero = ?
+                GROUP BY Produtos.Nome
+                ORDER BY Total DESC
+                LIMIT 10`;
+            params = [genero];
+        }
+    
+        connection.query(query, params, (err, result) => {
+            if (err) {
+                console.error("Erro ao buscar produtos por gênero:", err);
+                res.status(500).send("Erro ao buscar produtos por gênero:");
+            } else {
+                res.status(200).json(result);
+            }
+        });
+    });
+    
     
 
 
