@@ -1,8 +1,10 @@
 module.exports = (connection) => {
     const express = require("express");
     const router = express.Router();
+    const PegarTokenUsuario = require("../autenticacao");
 
-    router.get("/topClientesQTD", (req, res) => {
+    router.get("/topClientesQTD/:UsuarioID", PegarTokenUsuario, (req, res) => {
+        const UsuarioID = req.params.UsuarioID;
         const query = `
             SELECT Clientes.Nome, Carrinho.ClienteID, SUM(Carrinho.Quantidade) as Total
             FROM (
@@ -11,11 +13,12 @@ module.exports = (connection) => {
                 SELECT ClienteID, Quantidade FROM CarrinhoServicos
             ) AS Carrinho
             JOIN Clientes ON Carrinho.ClienteID = Clientes.ID
+            WHERE Clientes.UsuarioID = ?
             GROUP BY Carrinho.ClienteID
             ORDER BY Total DESC
             LIMIT 10`;
     
-        connection.query(query, (err, result) => {
+        connection.query(query, [UsuarioID], (err, result) => {
             if (err) {
                 console.error("Erro ao buscar Top 10 Clientes que consumiram em quantidade:", err);
                 res.status(500).send("Erro ao buscar Top 10 Clientes que consumiram em quantidade:");
@@ -24,8 +27,10 @@ module.exports = (connection) => {
             }
         });
     });
+    
 
-    router.get("/topClientesValor", (req, res) => {
+    router.get("/topClientesValor/:UsuarioID", PegarTokenUsuario, (req, res) => {
+        const UsuarioID = req.params.UsuarioID;
         const query = `
             SELECT Clientes.Nome, Carrinho.ClienteID, SUM(Carrinho.ValorTotal) as Total
             FROM (
@@ -34,11 +39,12 @@ module.exports = (connection) => {
                 SELECT ClienteID, Quantidade * Servicos.Preco AS ValorTotal FROM CarrinhoServicos JOIN Servicos ON CarrinhoServicos.ServicoID = Servicos.ID
             ) AS Carrinho
             JOIN Clientes ON Carrinho.ClienteID = Clientes.ID
+            WHERE Clientes.UsuarioID = ?
             GROUP BY Carrinho.ClienteID
             ORDER BY Total DESC
             LIMIT 5`;
     
-        connection.query(query, (err, result) => {
+        connection.query(query, [UsuarioID], (err, result) => {
             if (err) {
                 console.error("Erro ao buscar Top 5 Clientes que consumiram em valor:", err);
                 res.status(500).send("Erro ao buscar Top 5 Clientes que consumiram em valor:");
@@ -48,11 +54,12 @@ module.exports = (connection) => {
         });
     });
 
-    router.get("/topProdutos/:genero", (req, res) => {
+    router.get("/topProdutos/:genero/:UsuarioID", PegarTokenUsuario, (req, res) => {
         const genero = req.params.genero;
+        const UsuarioID = req.params.UsuarioID;
         let query = "";
         let params = [];
-    
+        
         // Sem cláusula WHERE de Gênero
         if (genero === "tudo") {
             query = `
@@ -60,22 +67,24 @@ module.exports = (connection) => {
                 FROM CarrinhoProdutos
                 JOIN Produtos ON CarrinhoProdutos.ProdutoID = Produtos.ID
                 JOIN Clientes ON CarrinhoProdutos.ClienteID = Clientes.ID
+                WHERE Clientes.UsuarioID = ?
                 GROUP BY Produtos.Nome
                 ORDER BY Total DESC
                 LIMIT 10`;
+            params = [UsuarioID];
         } else {
             query = `
                 SELECT Produtos.Nome, SUM(CarrinhoProdutos.Quantidade) as Total
                 FROM CarrinhoProdutos
                 JOIN Produtos ON CarrinhoProdutos.ProdutoID = Produtos.ID
                 JOIN Clientes ON CarrinhoProdutos.ClienteID = Clientes.ID
-                WHERE Clientes.Genero = ?
+                WHERE Clientes.Genero = ? AND Clientes.UsuarioID = ?
                 GROUP BY Produtos.Nome
                 ORDER BY Total DESC
                 LIMIT 10`;
-            params = [genero];
+            params = [genero, UsuarioID];
         }
-    
+        
         connection.query(query, params, (err, result) => {
             if (err) {
                 console.error("Erro ao buscar produtos por gênero:", err);
@@ -86,10 +95,6 @@ module.exports = (connection) => {
         });
     });
     
-    
-
-
-
 
     return router;
 

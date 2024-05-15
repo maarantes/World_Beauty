@@ -27,12 +27,14 @@ const rotasProdutos = require("./Rotas/rotasProdutos")(connection);
 const rotasServicos = require("./Rotas/rotasServicos")(connection);
 const rotasCarrinho = require("./Rotas/rotasCarrinho")(connection);
 const rotasListagens = require("./Rotas/rotasListagens")(connection);
+const rotasUsuario = require("./Rotas/rotasUsuario")(connection);
 
 app.use("/clientes", rotasClientes);
 app.use("/produtos", rotasProdutos);
 app.use("/servicos", rotasServicos);
 app.use("/carrinho", rotasCarrinho);
 app.use("/listagens", rotasListagens);
+app.use("/usuario", rotasUsuario);
 
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
