@@ -35,6 +35,7 @@ const estiloSelect = {
   function ModalCadastrarEditarCliente ({ tipo, isOpen, fecharModal, usuario }: BotaoModalProps) {
 
     const { buscarClientes } = useContext(ClienteContext);
+    const token = localStorage.getItem('token');
 
     // Caso abrir o modal no modo edição ele vai pegar as informações do usuário
     const [ID, setID] = useState<number>();
@@ -91,7 +92,11 @@ const estiloSelect = {
 
     //O form do modal vai chamar esta função com este endpoint quando ele estiver no modo edição
     function editarCliente(cliente: any) {
-        axios.put(`http://localhost:5000/clientes/editar/${ID}`, cliente)
+        axios.put(`http://localhost:5000/clientes/editar/${ID}`, cliente, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
             .then(response => {
                 fecharModal();
                 toast.success("Cliente editado com sucesso!");
@@ -105,7 +110,6 @@ const estiloSelect = {
 
     //Se estiver no modo cadastro chama o endpoint do cadastro caso contrário chama o endpoint acima
     function handleSubmit(event: any) {
-
         event.preventDefault();
 
         if (!nome || !nomeSocial || !selectedOption || !cpf) {
@@ -133,7 +137,11 @@ const estiloSelect = {
         };
 
         if (tipo === "cadastro") {
-            axios.post("http://localhost:5000/clientes/cadastrar", cliente)
+            axios.post("http://localhost:5000/clientes/cadastrar", cliente, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
                 .then(response => {
                     console.log(response.data);
                     fecharModal();

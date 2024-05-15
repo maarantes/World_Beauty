@@ -23,7 +23,12 @@ export function ProdutoProvider({ children }: { children: React.ReactNode }) {
   const [produtos, setProdutos] = useState<Produto[]>([]);
 
     const buscarProdutos = () => {
-      axios.get("http://localhost:5000/produtos/mostrar")
+      const token = localStorage.getItem("token");
+      axios.get("http://localhost:5000/produtos/mostrar", {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    })
         .then(response => {
           setProdutos(response.data);
         })

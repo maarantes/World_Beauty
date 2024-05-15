@@ -1,13 +1,19 @@
 import { useState } from 'react';
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./navbar.scss"
 import BotaoCTA from "../botaoCTA/botaoCTA";
 
 function Navbar () {
 
-    const [menuAberto, setMenuAberto] = useState(false);
+    const navigate = useNavigate();
 
+    const [menuAberto, setMenuAberto] = useState(false);
     const location = useLocation();
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        navigate("/");
+    };
 
     return (
         <>
@@ -20,11 +26,11 @@ function Navbar () {
             <Link to="/servicos" className={`navbar_menu_item ${location.pathname === "/servicos" ? "active" : ""}`}>Serviços</Link>
             <Link to="/listagens" className={`navbar_menu_item ${location.pathname === "/listagens" ? "active" : ""}`}>Listagens</Link>
             <div className="navbar_botao_hamburguer">
-                <BotaoCTA escrito="Sair" aparencia="primario" />
+                <BotaoCTA escrito="Sair" aparencia="primario" onClick={handleLogout} />
             </div>
         </div>
         <div className="navbar_botao">
-            <BotaoCTA escrito="Sair" aparencia="primario" />
+            <BotaoCTA escrito="Sair" aparencia="primario" onClick={handleLogout} />
         </div>
 
     </nav>

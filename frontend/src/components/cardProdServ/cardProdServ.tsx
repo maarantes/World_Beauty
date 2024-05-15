@@ -18,13 +18,20 @@ function CardProdServ({ ID, Nome, Preco, Tipo, abrirModalEdicao, }: CardProps) {
 
     const { buscarProdutos } = useContext(ProdutoContext);
     const { buscarServicos } = useContext(ServicoContext);
+    const token = localStorage.getItem('token');
 
     function deletarItem(ID: number) {
-        const url = Tipo === "produto" 
+        const rota = Tipo === "produto" 
             ? `http://localhost:5000/produtos/deletar/${ID}`
             : `http://localhost:5000/servicos/deletar/${ID}`;
 
-        axios.delete(url)
+        const autorizacao = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        };
+
+        axios.delete(rota, autorizacao)
             .then(response => {
                 console.log(response);
                 toast.success(`${Tipo.charAt(0).toUpperCase() + Tipo.slice(1)} deletado com sucesso!`)

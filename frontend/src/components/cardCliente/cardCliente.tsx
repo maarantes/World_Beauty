@@ -25,6 +25,7 @@ function CardCliente({ ID, Nome, NomeSocial, Genero, CPF, abrirModalEdicao }: Ca
 
     const { Carrinho, setCarrinho } = useContext(CarrinhoContext);
     const { buscarCarrinho } = useContext(CarrinhoContext);
+    const token = localStorage.getItem('token');
 
     const itensCarrinho = Carrinho.filter((item: any) => item.ClienteID === ID);
 
@@ -57,44 +58,58 @@ function CardCliente({ ID, Nome, NomeSocial, Genero, CPF, abrirModalEdicao }: Ca
     const { buscarClientes } = useContext(ClienteContext);
 
     function deletarCliente(ID: number) {
-        axios.delete(`http://localhost:5000/clientes/deletar/${ID}`)
-            .then(response => {
-                console.log(response);
-                toast.success("Cliente deletado com sucesso!")
-                // Atualizar lista de clientes
-                buscarClientes();
-            })
-            .catch(error => {
-                console.error("Erro ao deletar cliente", error);
-            });
-    return () => {};
+        axios.delete(`http://localhost:5000/clientes/deletar/${ID}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            console.log(response);
+            toast.success("Cliente deletado com sucesso!")
+            // Atualizar lista de clientes
+            buscarClientes();
+        })
+        .catch(error => {
+            console.error("Erro ao deletar cliente", error);
+        });
+        return () => {};
     }
+    
 
     function deletarProduto(ID: number, ProdutoID: number) {
-        axios.delete(`http://localhost:5000/carrinho/deletarProduto/${ID}/${ProdutoID}`)
-            .then(response => {
-                console.log(response);
-                toast.success("Produto deletado com sucesso!")
-                // Atualizar lista de clientes
-                buscarCarrinho();
-            })
-            .catch(error => {
-                console.error("Erro ao deletar cliente", error);
-    });
+        axios.delete(`http://localhost:5000/carrinho/deletarProduto/${ID}/${ProdutoID}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            console.log(response);
+            toast.success("Produto deletado com sucesso!")
+            // Atualizar lista de clientes
+            buscarCarrinho();
+        })
+        .catch(error => {
+            console.error("Erro ao deletar produto", error);
+        });
     }
-
+    
     function deletarServico(ID: number, ServicoID: number) {
-        axios.delete(`http://localhost:5000/carrinho/deletarServico/${ID}/${ServicoID}`)
-            .then(response => {
-                console.log(response);
-                toast.success("Serviço deletado com sucesso!")
-                // Atualizar lista de clientes
-                buscarCarrinho();
-            })
-            .catch(error => {
-                console.error("Erro ao deletar cliente", error);
-    });
+        axios.delete(`http://localhost:5000/carrinho/deletarServico/${ID}/${ServicoID}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            console.log(response);
+            toast.success("Serviço deletado com sucesso!")
+            // Atualizar lista de clientes
+            buscarCarrinho();
+        })
+        .catch(error => {
+            console.error("Erro ao deletar serviço", error);
+        });
     }
+    
 
     return (
         

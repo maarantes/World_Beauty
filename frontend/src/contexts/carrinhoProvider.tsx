@@ -25,14 +25,20 @@ export const CarrinhoProvider = (props: any) => {
     const [Carrinho, setCarrinho] = useState<Item[]>([]);
   
     const buscarCarrinho = () => {
-        axios.get(`http://localhost:5000/carrinho/mostrar/${props.ClienteID}`)
-            .then(response => {
-                setCarrinho(response.data);
-            })
-            .catch(error => {
-                console.error("Erro ao buscar carrinho", error);
-            });
+        const token = localStorage.getItem("token");
+        axios.get(`http://localhost:5000/carrinho/mostrar/${props.ClienteID}`, {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            setCarrinho(response.data);
+        })
+        .catch(error => {
+            console.error("Erro ao buscar carrinho", error);
+        });
     };
+    
   
     useEffect(() => {
         buscarCarrinho();

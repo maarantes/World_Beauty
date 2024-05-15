@@ -24,6 +24,8 @@ interface modalCadEdiProdServProps {
 
 function ModalCadEdiProdServ ({ tipo, isOpen, fecharModal, item, categoria}: modalCadEdiProdServProps) {
 
+    const token = localStorage.getItem("token");
+
     const { buscarProdutos } = useContext(ProdutoContext);
     const { buscarServicos } = useContext(ServicoContext);
 
@@ -71,22 +73,38 @@ function ModalCadEdiProdServ ({ tipo, isOpen, fecharModal, item, categoria}: mod
         try {
 
             if (tipo === "cadastro" && categoria === "produto") {
-                const response = await axios.post("http://localhost:5000/produtos/cadastrar", item);
+                const response = await axios.post("http://localhost:5000/produtos/cadastrar", item, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
                 toast.success("Produto cadastrado com sucesso!");
             } 
-            
+                        
             else if (tipo === "edicao" && categoria === "produto") {
-                const response = await axios.put(`http://localhost:5000/produtos/editar/${ID}`, item);
+                const response = await axios.put(`http://localhost:5000/produtos/editar/${ID}`, item, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
                 toast.success("Produto editado com sucesso!");
             }
-
+            
             else if (tipo === "cadastro" && categoria === "serviço") {
-                const response = await axios.post("http://localhost:5000/servicos/cadastrar", item);
+                const response = await axios.post("http://localhost:5000/servicos/cadastrar", item, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
                 toast.success("Serviço cadastrado com sucesso!");
             }
-
+            
             else if (tipo === "edicao" && categoria === "serviço") {
-                const response = await axios.put(`http://localhost:5000/servicos/editar/${ID}`, item);
+                const response = await axios.put(`http://localhost:5000/servicos/editar/${ID}`, item, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
                 toast.success("Serviço editado com sucesso!");
             }
 

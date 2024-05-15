@@ -5,6 +5,8 @@ import BotaoCTA from "../../components/botaoCTA/botaoCTA";
 import axios from "axios";
 import Select from "react-select";
 
+import { jwtDecode } from "jwt-decode";
+
 interface Cliente {
     Nome: string;
     ClienteID: number;
@@ -12,6 +14,15 @@ interface Cliente {
 }
 
 function PaginaListagens() {
+
+    const token = localStorage.getItem("token");
+
+    // Decodificar o token e pegar o ID do usuário
+    let UsuarioID: number;
+    if (token) {
+        const decodedToken = jwtDecode(token) as { [key: string]: any };
+        UsuarioID = decodedToken["id"];
+    }
 
     // Lista de Clientes
     const [clientes, setClientes] = useState<Cliente[]>([]);
@@ -22,15 +33,19 @@ function PaginaListagens() {
 
     const [Genero, setGenero] = useState("");
 
-    // Mudar a tabela para 3 colunas se ela for produtos famosos
+    // Mudar a tabela para 3 colunas se ela for de produtos famosos
     const [TabelaProdutosGenero, setTabelaProdutosGenero] = useState(false);
 
 
 
-    const buscarTopClientesQTD = async () => {
+    const buscarTopClientesQTD = async (UsuarioID: any) => {
         try {
-            const response = await axios.get("http://localhost:5000/listagens/topClientesQTD");
-
+            const response = await axios.get(`http://localhost:5000/listagens/topClientesQTD/${UsuarioID}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+    
             setClientes(response.data);
             setMostrarTabela(true);
             setTextoCabecalho("Quantidade");
@@ -40,10 +55,15 @@ function PaginaListagens() {
             console.error("Erro ao buscar os clientes:", error);
         }
     };
+    
 
-    const buscarTopClientesValor = async () => {
+    const buscarTopClientesValor = async (UsuarioID: any) => {
         try {
-            const response = await axios.get("http://localhost:5000/listagens/topClientesValor");
+            const response = await axios.get(`http://localhost:5000/listagens/topClientesValor/${UsuarioID}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
 
             setClientes(response.data);
             setMostrarTabela(true);
@@ -55,9 +75,14 @@ function PaginaListagens() {
         }
     };
 
-    const buscarTopProdutosGenero = async (genero: string) => {
+    const buscarTopProdutosGenero = async (genero: string, UsuarioID: any) => {
         try {
-            const response = await axios.get(`http://localhost:5000/listagens/topProdutos/${genero}`);
+            
+            const response = await axios.get(`http://localhost:5000/listagens/topProdutos/${genero}/${UsuarioID}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
             // Armazene os dados no estado
             setClientes(response.data);
             setMostrarTabela(true);
@@ -93,7 +118,7 @@ function PaginaListagens() {
 
     const handleChange = (option: any) => {
         setGenero(option);
-        buscarTopProdutosGenero(option.value);
+        buscarTopProdutosGenero(option.value, UsuarioID);
     };
 
     return (
@@ -104,10 +129,10 @@ function PaginaListagens() {
 
             <div className="list_botao">
                 <div>
-                <BotaoCTA escrito="Top 10 clientes que mais consumiram em quantidade" aparencia="secundario" onClick={buscarTopClientesQTD} />
+                <BotaoCTA escrito="Top 10 clientes que mais consumiram em quantidade" aparencia="secundario" onClick={() => buscarTopClientesQTD(UsuarioID)}  />
                 </div>
                 <div>
-                <BotaoCTA escrito="Top 05 clientes que mais consumiram em valor" aparencia="secundario" onClick={buscarTopClientesValor} />
+                <BotaoCTA escrito="Top 05 clientes que mais consumiram em valor" aparencia="secundario" onClick={() => buscarTopClientesValor(UsuarioID)} />
                 </div>
                 <div>
                 <p className="list_botao_genero">Produtos mais famosos por gênero</p>

@@ -3,7 +3,9 @@ import FormInputEmail from "../../components/formInput/formInputEmail";
 import FormInputSenha from "../../components/formInput/formInputSenha";
 import "./login_cadastro.scss"
 import BotaoCTA from "../../components/botaoCTA/botaoCTA";
-
+import axios from "axios";
+import { toast } from "react-toastify";
+import NotificacaoToast from "../../components/NotificacaoToast/notificacaoToast";
 
 function PaginaCadastro() {
 
@@ -23,6 +25,22 @@ function PaginaCadastro() {
         setSenha(value);
     };
 
+    const handleCadastro = async (event: any) => {
+        event.preventDefault();
+    
+        try {
+            const response = await axios.post("http://localhost:5000/usuario/cadastrar", { email, senha });
+    
+            const { token } = response.data;
+            localStorage.setItem('token', token);
+    
+            toast.success('Usuário cadastrado com sucesso!');
+        } catch (error) {
+            toast.warning('Erro ao cadastrar usuário');
+        }
+    };
+    
+
     return (
         <>
         <div className="logcad_container_cima">
@@ -31,7 +49,7 @@ function PaginaCadastro() {
         </div>
 
         <div className="logcad_container_form">
-            <form className="logcad_form">
+            <form className="logcad_form" onSubmit={handleCadastro}>
                 <FormInputEmail onEmailChange={handleEmailChange} />
                 <FormInputSenha onSenhaChange={handleSenhaChange} type="extendido"/>
                 <div className="logcad_botao">
@@ -43,6 +61,8 @@ function PaginaCadastro() {
                 <BotaoCTA link="/" aparencia="secundario" escrito="Login" />
             </div>
         </div>
+        
+        <NotificacaoToast />
         </>
     )
 }

@@ -23,7 +23,12 @@ export function ServicoProvider({ children }: { children: React.ReactNode }) {
   const [Servicos, setServicos] = useState<Servico[]>([]);
     
     const buscarServicos = () => {
-      axios.get("http://localhost:5000/servicos/mostrar")
+      const token = localStorage.getItem("token");
+      axios.get("http://localhost:5000/servicos/mostrar", {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    })
         .then(response => {
           setServicos(response.data);
         })

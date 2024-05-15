@@ -28,6 +28,7 @@ export interface OpcaoProps {
 function ModalAdicionarItem ({ closeModal, modalIsOpen, tipo, clienteID }: ModalProps) {
 
     const { buscarCarrinho } = useContext(CarrinhoContext);
+    const token = localStorage.getItem('token');
 
     // Input de número
     const [value, setValue] = useState("");
@@ -73,7 +74,11 @@ function ModalAdicionarItem ({ closeModal, modalIsOpen, tipo, clienteID }: Modal
                     clienteId: clienteID,
                     itemID,
                     quantidade: value
-                });
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
     
                 toast.success(`${tipo.charAt(0).toUpperCase() + tipo.slice(1)} adicionado com sucesso!`);
                 buscarCarrinho();

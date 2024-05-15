@@ -1,11 +1,17 @@
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import FormInputEmail from "../../components/formInput/formInputEmail";
 import FormInputSenha from "../../components/formInput/formInputSenha";
 import "./login_cadastro.scss"
 import BotaoCTA from "../../components/botaoCTA/botaoCTA";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import NotificacaoToast from "../../components/NotificacaoToast/notificacaoToast";
 
 
 function PaginaLogin() {
+
+    const navigate = useNavigate();
 
     // Renderizar pág. a partir do topo ao ser carregada
     useEffect(() => {
@@ -23,6 +29,21 @@ function PaginaLogin() {
         setSenha(value);
     };
 
+    const handleLogin = async (event: any) => {
+        event.preventDefault();
+    
+        try {
+            const response = await axios.post("http://localhost:5000/usuario/login", { email, senha });
+    
+            const { token } = response.data;
+            localStorage.setItem("token", token);
+    
+            navigate("/clientes");
+        } catch (error) {
+            toast.warning("Erro ao realizar login");
+        }
+    };
+
     return (
         <>
         <div className="logcad_container_cima">
@@ -31,7 +52,7 @@ function PaginaLogin() {
         </div>
 
         <div className="logcad_container_form">
-            <form className="logcad_form">
+            <form className="logcad_form" onSubmit={handleLogin}>
                 <FormInputEmail onEmailChange={handleEmailChange} />
                 <FormInputSenha onSenhaChange={handleSenhaChange} type="normal"/>
                 <div className="logcad_botao">
@@ -43,6 +64,9 @@ function PaginaLogin() {
                 <BotaoCTA link="/cadastro" aparencia="secundario" escrito="Cadastre-se" />
             </div>
         </div>
+        
+        <NotificacaoToast />
+
         </>
     )
 }

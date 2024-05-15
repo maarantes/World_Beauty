@@ -1,5 +1,5 @@
-import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect, Dispatch, SetStateAction } from "react";
+import axios from "axios";
 import { Produto } from "./produtoProvider";
 import { Servico } from "./servicoProvider";
 
@@ -39,7 +39,12 @@ export function ClienteProvider({ children }: { children: React.ReactNode }) {
   const [Clientes, setClientes] = useState<Cliente[]>([]);
 
   const buscarClientes = () => {
-    axios.get("http://localhost:5000/clientes/mostrar")
+    const token = localStorage.getItem("token");
+    axios.get("http://localhost:5000/clientes/mostrar", {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    })
       .then(response => {
         setClientes(response.data);
       })
