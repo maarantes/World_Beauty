@@ -1,0 +1,79 @@
+.form_item {
+    width: 100%;
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form_item_cima {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.form_label {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #303030;
+}
+
+.form_input {
+    border: 2px solid #ababab;
+    border-radius: 8px;
+    padding: 8px;
+    margin-top: 12px;
+    width: 100%;
+}
+
+.form_item_baixo {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.form_input.valid {
+    border-color: green;
+}
+
+.form_input.invalid {
+    border-color: #d63d1b;
+}
+
+.form_mensagem_erro {
+    margin-top: 8px;
+    font-size: 0.875rem;
+    color: #d63d1b;
+}
+
+
+
+
+/* Input de senha */
+
+.form_input_senha_baixo {
+    margin-top: 16px;
+    font-size: 0.875rem;
+}
+
+.form_input_senha_baixo_titulo {
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.form_input_senha_baixo p {
+    color: #7d7d7d;
+}
+
+.form_botao_revelar {
+    padding: 2px;
+    padding-left: 12px;
+    background-color: white;
+    position: absolute;
+    right: 6px;
+    transform: translateY(7px);
+    cursor: pointer;
+}
+
+.form_botao_revelar img {
+    width: 20px;
+}
