@@ -3,8 +3,9 @@ module.exports = (connection) => {
     const router = express.Router();
     const PegarTokenUsuario = require("../autenticacao");
 
-    router.get("/topClientesQTD/:UsuarioID", PegarTokenUsuario, (req, res) => {
+    router.get("/topClientesQTD/:Ordem/?:UsuarioID", PegarTokenUsuario, (req, res) => {
         const UsuarioID = req.params.UsuarioID;
+        const Ordem = req.params.Ordem.toUpperCase() === "MAIS" ? "DESC" : "ASC";
         const query = `
             SELECT Clientes.Nome, Carrinho.ClienteID, SUM(Carrinho.Quantidade) as Total
             FROM (
@@ -15,7 +16,7 @@ module.exports = (connection) => {
             JOIN Clientes ON Carrinho.ClienteID = Clientes.ID
             WHERE Clientes.UsuarioID = ?
             GROUP BY Carrinho.ClienteID
-            ORDER BY Total DESC
+            ORDER BY Total ${Ordem}
             LIMIT 10`;
     
         connection.query(query, [UsuarioID], (err, result) => {
