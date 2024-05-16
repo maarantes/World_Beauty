@@ -19,3 +19,12 @@
     font-weight: 600;
     color: $text-color-gray;
 }
+
+.dash_nenhum {
+    padding: 32px;
+    border: 2px solid $shade-light-gray;
+    width: 50%;
+    margin-top: 32px;
+    border-radius: 8px;
+    color: $text-color-gray;
+}

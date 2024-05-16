@@ -55,16 +55,23 @@ function DashboardServico() {
           </p>
     
           <div>
-            {ServicosFiltrados.map((Servico, index) => (
-             <CardProdServ
-             ID={Servico.ID}
-             key={index} 
-             Nome={Servico.Nome} 
-             Preco={Servico.Preco}
-             Tipo="serviço"
-             abrirModalEdicao={() => openModalEdicao(Servico)}/>
-            ))}
-          </div>
+          {ServicosFiltrados.length > 0 ? (
+            ServicosFiltrados.map((Servico, index) => (
+            <CardProdServ
+              ID={Servico.ID}
+              key={index} 
+              Nome={Servico.Nome} 
+              Preco={Servico.Preco}
+              Tipo="serviço"
+              abrirModalEdicao={() => openModalEdicao(Servico)}
+            />
+            ))
+    ) : (
+      <div className="dash_nenhum">
+        <p>Não há nenhum serviço cadastrado.</p>
+      </div>
+  )}
+</div>
 
           <ModalCadEdiProdServ tipo={tipo} isOpen={modalIsOpen} fecharModal={closeModal} item={Servico} categoria="serviço" />
     

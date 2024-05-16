@@ -76,22 +76,27 @@ function DashboardCliente() {
       </p>
 
       <div>
-      {filtrarClientes() && filtrarClientes().map(cliente => (
-      <CarrinhoProvider ClienteID={cliente.ID} key={cliente.ID}>
-        <CardCliente
-            ID={cliente.ID}
-            Nome={cliente.Nome}
-            NomeSocial={cliente.NomeSocial}
-            Genero={cliente.Genero}
-            CPF={cliente.CPF}
-            Produtos={cliente.Produtos ? cliente.Produtos.map(p => ({ Nome: p.produto.Nome, quantidade: p.quantidade })) : []}
-            Servicos={cliente.Servicos ? cliente.Servicos.map(s => ({ Nome: s.servico.Nome, quantidade: s.quantidade })) : []}
-            abrirModalEdicao={() => openModalEdicao(cliente)}
-        />
-      </CarrinhoProvider>
-))}
-
-      </div>
+      {filtrarClientes().length > 0 ? (
+        filtrarClientes().map(cliente => (
+          <CarrinhoProvider ClienteID={cliente.ID} key={cliente.ID}>
+            <CardCliente
+              ID={cliente.ID}
+              Nome={cliente.Nome}
+              NomeSocial={cliente.NomeSocial}
+              Genero={cliente.Genero}
+              CPF={cliente.CPF}
+              Produtos={cliente.Produtos ? cliente.Produtos.map(p => ({ Nome: p.produto.Nome, quantidade: p.quantidade })) : []}
+              Servicos={cliente.Servicos ? cliente.Servicos.map(s => ({ Nome: s.servico.Nome, quantidade: s.quantidade })) : []}
+              abrirModalEdicao={() => openModalEdicao(cliente)}
+            />
+          </CarrinhoProvider>
+        ))
+      ) : (
+        <div className="dash_nenhum">
+          <p>Não há nenhum cliente cadastrado.</p>
+        </div>
+  )}
+</div>
 
       <ModalCadastrarEditarCliente tipo={tipo} isOpen={modalIsOpen} fecharModal={closeModal} usuario={usuario} />
 

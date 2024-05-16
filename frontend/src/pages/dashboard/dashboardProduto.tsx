@@ -55,17 +55,23 @@ function DashboardProduto() {
           </p>
     
           <div>
-            {produtosFiltrados.map((produto) => (
-             <CardProdServ
-             ID={produto.ID}
-             key={produto.ID}
-             Nome={produto.Nome}
-             Preco={produto.Preco}
-             Tipo="produto"
-             abrirModalEdicao={() => openModalEdicao(produto)}
-             />
-            ))}
-          </div>
+          {produtosFiltrados.length > 0 ? (
+            produtosFiltrados.map(produto => (
+            <CardProdServ
+              ID={produto.ID}
+              key={produto.ID}
+              Nome={produto.Nome}
+              Preco={produto.Preco}
+              Tipo="produto"
+              abrirModalEdicao={() => openModalEdicao(produto)}
+            />
+        ))
+        ) : (
+      <div className="dash_nenhum">
+        <p>Não há nenhum produto cadastrado.</p>
+      </div>
+  )}
+</div>
 
           <ModalCadEdiProdServ tipo={tipo} isOpen={modalIsOpen} fecharModal={closeModal} item={produto} categoria="produto" />
     
