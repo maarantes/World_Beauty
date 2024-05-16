@@ -37,19 +37,37 @@ function PaginaListagens() {
     const [TabelaProdutosGenero, setTabelaProdutosGenero] = useState(false);
 
 
-
-    const buscarTopClientesQTD = async (UsuarioID: any) => {
+    const buscarTopClientesMais = async (UsuarioID: number, Ordem: string) => {
         try {
-            const response = await axios.get(`http://localhost:5000/listagens/topClientesQTD/${UsuarioID}`, {
+            const response = await axios.get(`http://localhost:5000/listagens/topClientesQTD/${Ordem}/${UsuarioID}`, {
                 headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
+                'Authorization': `Bearer ${token}`
+            }
+        });
     
             setClientes(response.data);
             setMostrarTabela(true);
             setTextoCabecalho("Quantidade");
             setTitulo("OUTPUT: Top 10 clientes que mais consumiram em quantidade");
+            setTabelaProdutosGenero(false);
+        } catch (error) {
+            console.error("Erro ao buscar os clientes:", error);
+        }
+    };
+
+
+    const buscarTopClientesMenos = async (UsuarioID: number, Ordem: string) => {
+        try {
+            const response = await axios.get(`http://localhost:5000/listagens/topClientesQTD/${Ordem}/${UsuarioID}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            setClientes(response.data);
+            setMostrarTabela(true);
+            setTextoCabecalho("Quantidade");
+            setTitulo("OUTPUT: Top 10 clientes que menos consumiram em quantidade");
             setTabelaProdutosGenero(false);
         } catch (error) {
             console.error("Erro ao buscar os clientes:", error);
@@ -129,7 +147,10 @@ function PaginaListagens() {
 
             <div className="list_botao">
                 <div>
-                <BotaoCTA escrito="Top 10 clientes que mais consumiram em quantidade" aparencia="secundario" onClick={() => buscarTopClientesQTD(UsuarioID)}  />
+                <BotaoCTA escrito="Top 10 clientes que mais consumiram em quantidade" aparencia="secundario" onClick={() => buscarTopClientesMais(UsuarioID, "Mais")}  />
+                </div>
+                <div>
+                <BotaoCTA escrito="Top 10 clientes que menos consumiram em quantidade" aparencia="secundario" onClick={() => buscarTopClientesMenos(UsuarioID, "Menos")}  />
                 </div>
                 <div>
                 <BotaoCTA escrito="Top 05 clientes que mais consumiram em valor" aparencia="secundario" onClick={() => buscarTopClientesValor(UsuarioID)} />
