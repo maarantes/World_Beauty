@@ -44,7 +44,7 @@ function PaginaCadastro() {
     return (
         <>
         <div className="logcad_container_cima">
-            <img src="/img/nav_placeholder.png" />
+            <img src="/img/logotipo_wb.png" />
             <h1>Criar Conta</h1>
         </div>
 

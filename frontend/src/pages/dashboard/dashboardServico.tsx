@@ -6,10 +6,15 @@ import CardProdServ from "../../components/cardProdServ/cardProdServ";
 import ModalCadEdiProdServ from "../../components/modalCadEdiProdServ/modalCadEdiProdServ";
 import { ServicoContext } from '../../contexts/servicoProvider';
 import NotificacaoToast from "../../components/NotificacaoToast/notificacaoToast";
+import BarraPesquisa from "../../components/barraPesquisa/barraPesquisa";
 
 function DashboardServico() {
   
     const { Servicos } = useContext(ServicoContext);
+
+    const [pesquisa, setPesquisa] = useState("");
+
+    const ServicosFiltrados = Servicos.filter(servico => servico.Nome.toLowerCase().includes(pesquisa.toLowerCase()));
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [tipo, setTipo] = useState<"cadastro" | "edicao">("cadastro");
@@ -43,12 +48,14 @@ function DashboardServico() {
         <h1 className="dash_titulo">Lista de Serviços</h1>
         <BotaoCTA escrito="Cadastrar Serviço" aparencia="primario" cor="verde" onClick={openModalCadastro}/>
     
+        <BarraPesquisa pesquisa={pesquisa} setPesquisa={setPesquisa} />
+        
           <p className="dash_resultado">
-            {Servicos.length} RESULTADOS ENCONTRADOS
+            {ServicosFiltrados.length} RESULTADOS ENCONTRADOS
           </p>
     
           <div>
-            {Servicos.map((Servico, index) => (
+            {ServicosFiltrados.map((Servico, index) => (
              <CardProdServ
              ID={Servico.ID}
              key={index} 

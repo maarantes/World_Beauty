@@ -1,0 +1,26 @@
+@import "../../global.scss";
+
+.dash_pesquisa_container {
+    position: relative;
+}
+
+.dash_pesquisa_container img {
+    position: absolute;
+    width: 24px;
+    top: 55%; /* Centraliza verticalmente */
+    left: 16px; /* Distância da imagem da borda esquerda do input */}
+
+.dash_pesquisa {
+    padding: 12px;
+    font-size: 1rem;
+    border: 2px solid $shade-light-gray;
+    border-radius: 8px;
+    width: 50%;
+    margin-top: 32px;
+    padding-left: 56px;
+    color: $text-color-gray;
+}
+
+.dash_pesquisa:focus {
+    outline: none;
+}

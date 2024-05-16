@@ -7,21 +7,25 @@ import BotaoCTA from "../../components/botaoCTA/botaoCTA";
 import ModalCadastrarEditarCliente from "../../components/modalCadastrarEditarCliente/modalCadastrarEditarCliente";
 import NotificacaoToast from '../../components/NotificacaoToast/notificacaoToast';
 import { CarrinhoProvider } from '../../contexts/carrinhoProvider';
+import BarraPesquisa from '../../components/barraPesquisa/barraPesquisa';
 
 function DashboardCliente() {
 
   const { Clientes } = useContext(ClienteContext);
 
-    // Filtrar cartões por gênero
-    const [generoFiltro, setGeneroFiltro] = useState('Tudo');
+  const [pesquisa, setPesquisa] = useState("");
+  const [generoFiltro, setGeneroFiltro] = useState('Tudo');
 
-    const filtrarClientes = () => {
-      if (generoFiltro === 'Tudo') {
-        return Clientes;
-      } else {
-        return Clientes.filter(cliente => cliente.Genero === generoFiltro);
-      }
-    };
+  const filtrarClientes = () => {
+    let clientesFiltrados = Clientes;
+    if (generoFiltro !== 'Tudo') {
+      clientesFiltrados = clientesFiltrados.filter(cliente => cliente.Genero === generoFiltro);
+    }
+    if (pesquisa) {
+      clientesFiltrados = clientesFiltrados.filter(cliente => cliente.Nome.toLowerCase().includes(pesquisa.toLowerCase()));
+    }
+    return clientesFiltrados;
+  };
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [tipo, setTipo] = useState<"cadastro" | "edicao">("cadastro");
@@ -64,6 +68,8 @@ function DashboardCliente() {
         <BotaoCTA escrito="Feminino" aparencia={generoFiltro === 'Feminino' ? 'primario' : 'secundario'} onClick={() => setGeneroFiltro('Feminino')} className={generoFiltro === 'Feminino' ? 'sem_hover' : ''} />
         <BotaoCTA escrito="Outros" aparencia={generoFiltro === 'Outro' ? 'primario' : 'secundario'} onClick={() => setGeneroFiltro('Outro')} className={generoFiltro === 'Outro' ? 'sem_hover' : ''} />
     </div>
+
+    <BarraPesquisa pesquisa={pesquisa} setPesquisa={setPesquisa} />
 
       <p className="dash_resultado">
         {filtrarClientes().length} RESULTADOS ENCONTRADOS

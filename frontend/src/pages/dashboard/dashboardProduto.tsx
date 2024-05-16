@@ -6,10 +6,15 @@ import CardProdServ from "../../components/cardProdServ/cardProdServ";
 import ModalCadEdiProdServ from "../../components/modalCadEdiProdServ/modalCadEdiProdServ";
 import { ProdutoContext } from '../../contexts/produtoProvider';
 import NotificacaoToast from "../../components/NotificacaoToast/notificacaoToast";
+import BarraPesquisa from "../../components/barraPesquisa/barraPesquisa";
 
 function DashboardProduto() {
   
     const { produtos } = useContext(ProdutoContext);
+
+    const [pesquisa, setPesquisa] = useState("");
+
+    const produtosFiltrados = produtos.filter(produto => produto.Nome.toLowerCase().includes(pesquisa.toLowerCase()));
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [tipo, setTipo] = useState<"cadastro" | "edicao">("cadastro");
@@ -42,13 +47,15 @@ function DashboardProduto() {
     
         <h1 className="dash_titulo">Lista de Produtos</h1>
         <BotaoCTA escrito="Cadastrar Produto" aparencia="primario" cor="verde" onClick={openModalCadastro}/>
-    
+
+        <BarraPesquisa pesquisa={pesquisa} setPesquisa={setPesquisa} />
+        
           <p className="dash_resultado">
-            {produtos.length} RESULTADOS ENCONTRADOS
+            {produtosFiltrados.length} RESULTADOS ENCONTRADOS
           </p>
     
           <div>
-            {produtos.map((produto) => (
+            {produtosFiltrados.map((produto) => (
              <CardProdServ
              ID={produto.ID}
              key={produto.ID}
