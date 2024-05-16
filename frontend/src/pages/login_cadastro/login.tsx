@@ -47,7 +47,7 @@ function PaginaLogin() {
     return (
         <>
         <div className="logcad_container_cima">
-            <img src="/img/nav_placeholder.png" />
+            <img src="/img/logotipo_wb.svg" />
             <h1>Fazer Login</h1>
         </div>
 
