@@ -9,8 +9,8 @@ import DashboardCliente from "../pages/dashboard/dashboardCliente";
 import DashboardProduto from "../pages/dashboard/dashboardProduto";
 import DashboardServico from "../pages/dashboard/dashboardServico";
 import PaginaListagens from "../pages/listagens/listagens";
-import PaginaLogin from "../pages/login_cadastro/login";
-import PaginaCadastro from "../pages/login_cadastro/cadastro";
+import PaginaLogin from "../pages/loginCadastro/login";
+import PaginaCadastro from "../pages/loginCadastro/cadastro";
 
 
 

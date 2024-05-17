@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "./dashboard.scss"
 import Navbar from "../../components/navbar/navbar";
 import BotaoCTA from "../../components/botaoCTA/botaoCTA";
@@ -9,6 +9,10 @@ import NotificacaoToast from "../../components/NotificacaoToast/notificacaoToast
 import BarraPesquisa from "../../components/barraPesquisa/barraPesquisa";
 
 function DashboardServico() {
+
+    useEffect(() => {
+      document.title = "World Beauty | Serviços";
+    }, []);
   
     const { Servicos } = useContext(ServicoContext);
 

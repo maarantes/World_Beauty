@@ -60,14 +60,21 @@ function ModalCadEdiProdServ ({ tipo, isOpen, fecharModal, item, categoria}: mod
     async function handleSubmit(event: any) {
         event.preventDefault();
 
+        const contemNumero = /\d/;
+        if (contemNumero.test(nome)) {
+            toast.warning("Nome não pode conter números!");
+        return;
+        }
+
+        // Colocar centavos no preço se não tiver
+        let precoFinal = preco;
         if (!preco.includes(".")) {
-            toast.warning("Inclua os centavos no preço!");
-            return;
+            precoFinal += ".00";
         }
     
         const item = {
             Nome: nome,
-            Preco: preco
+            Preco: precoFinal
         };
     
         try {
@@ -138,7 +145,7 @@ function ModalCadEdiProdServ ({ tipo, isOpen, fecharModal, item, categoria}: mod
                 <form className="modalcad_form" onSubmit={handleSubmit}>
                     <div className="modalcad_form_item">
                         <p>Nome:</p>
-                        <input type="text" pattern="[A-Za-z\s]*" placeholder="Digite aqui..." value={nome} onChange={e => setNome(e.target.value)}/>
+                        <input type="text" placeholder="Digite aqui..." value={nome} onChange={e => setNome((e.target.value))}/>
                     </div>
                     <div className="modalcad_form_item">
                         <p>Preço (em reais):</p>

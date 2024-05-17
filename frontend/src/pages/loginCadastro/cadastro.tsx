@@ -1,22 +1,22 @@
-import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import FormInputEmail from "../../components/formInput/formInputEmail";
 import FormInputSenha from "../../components/formInput/formInputSenha";
 import "./login_cadastro.scss"
 import BotaoCTA from "../../components/botaoCTA/botaoCTA";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import NotificacaoToast from "../../components/NotificacaoToast/notificacaoToast";
 
+function PaginaCadastro() {
 
-function PaginaLogin() {
-
-    const navigate = useNavigate();
+    useEffect(() => {
+        document.title = "World Beauty | Cadastro";
+    }, []);
 
     // Renderizar pág. a partir do topo ao ser carregada
     useEffect(() => {
         window.scrollTo(0, 0);
-      }, []);
+    }, []);
 
     // Pegar e guardar informações dos Inputs
     const [email, setEmail] = useState("");
@@ -29,46 +29,46 @@ function PaginaLogin() {
         setSenha(value);
     };
 
-    const handleLogin = async (event: any) => {
+    const handleCadastro = async (event: any) => {
         event.preventDefault();
     
         try {
-            const response = await axios.post("http://localhost:5000/usuario/login", { email, senha });
+            const response = await axios.post("http://localhost:5000/usuario/cadastrar", { email, senha });
     
             const { token } = response.data;
-            localStorage.setItem("token", token);
+            localStorage.setItem('token', token);
     
-            navigate("/clientes");
+            toast.success('Usuário cadastrado com sucesso!');
         } catch (error) {
-            toast.warning("Erro ao realizar login");
+            toast.warning('O E-mail já está em uso!');
         }
     };
+    
 
     return (
         <>
         <div className="logcad_container_cima">
             <img src="/img/logotipo_wb.svg" />
-            <h1>Fazer Login</h1>
+            <h1>Criar Conta</h1>
         </div>
 
         <div className="logcad_container_form">
-            <form className="logcad_form" onSubmit={handleLogin}>
+            <form className="logcad_form" onSubmit={handleCadastro}>
                 <FormInputEmail onEmailChange={handleEmailChange} />
-                <FormInputSenha onSenhaChange={handleSenhaChange} type="normal"/>
+                <FormInputSenha onSenhaChange={handleSenhaChange} type="extendido"/>
                 <div className="logcad_botao">
-                    <BotaoCTA type="submit" aparencia="primario" escrito="Login" />
+                    <BotaoCTA type="submit" aparencia="primario" escrito="Cadastrar" />
                 </div>
             </form>
             <div className="logcad_convite">
-                <p>Ainda não possui uma conta?</p>
-                <BotaoCTA link="/cadastro" aparencia="secundario" escrito="Cadastre-se" />
+                <p>Já possui uma conta?</p>
+                <BotaoCTA link="/" aparencia="secundario" escrito="Login" />
             </div>
         </div>
         
         <NotificacaoToast />
-
         </>
     )
 }
 
-export default PaginaLogin;
+export default PaginaCadastro;

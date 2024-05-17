@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./listagens.scss"
 import Navbar from "../../components/navbar/navbar";
 import BotaoCTA from "../../components/botaoCTA/botaoCTA";
@@ -14,6 +14,10 @@ interface Cliente {
 }
 
 function PaginaListagens() {
+
+    useEffect(() => {
+        document.title = "World Beauty | Listagens";
+    }, []);
 
     const token = localStorage.getItem("token");
 

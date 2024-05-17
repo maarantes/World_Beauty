@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { ClienteContext } from '../../contexts/clienteProvider';
 import "./dashboard.scss"
 import Navbar from "../../components/navbar/navbar";
@@ -10,6 +10,10 @@ import { CarrinhoProvider } from '../../contexts/carrinhoProvider';
 import BarraPesquisa from '../../components/barraPesquisa/barraPesquisa';
 
 function DashboardCliente() {
+
+  useEffect(() => {
+    document.title = "World Beauty | Clientes";
+  }, []);
 
   const { Clientes } = useContext(ClienteContext);
 
