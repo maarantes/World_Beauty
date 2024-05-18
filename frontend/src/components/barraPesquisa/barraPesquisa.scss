@@ -2,6 +2,7 @@
 
 .dash_pesquisa_container {
     position: relative;
+    z-index: 0;
 }
 
 .dash_pesquisa_container img {
@@ -23,4 +24,15 @@
 
 .dash_pesquisa:focus {
     outline: none;
+}
+
+
+/* Responsividade */
+
+@media only screen and (max-width: 1200px) {
+
+    .dash_pesquisa {
+        width: 100%;
+    }
+
 }

@@ -47,3 +47,14 @@
     gap: 16px;
     margin-top: 64px;
 }
+
+
+/* Responsividade */
+
+@media only screen and (max-width: 900px) {
+
+    .logcad_form {
+        width: 80%;
+    }
+
+}

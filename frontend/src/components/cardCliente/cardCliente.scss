@@ -108,3 +108,36 @@
 }
 
 
+/* Responsividade */
+
+@media only screen and (max-width: 1200px) {
+
+    .cacli_wrapper {
+        min-width: 100%;
+    }
+
+}
+
+@media only screen and (max-width: 500px) {
+
+    .cacli_conteudo {
+        flex-direction: column;
+    }
+
+    .cacli_conteudo_dir {
+        margin-bottom: 16px;
+    }
+
+}
+
+@media only screen and (max-width: 800px) {
+
+    .cacli_baixo_secao {
+        flex-direction: column;
+    }
+
+    .cacli_baixo_secao_dir {
+        margin-top: 16px;
+    }
+
+}

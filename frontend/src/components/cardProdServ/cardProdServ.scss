@@ -1,6 +1,6 @@
 @import "../../global.scss";
 
-.cacli_wrapper {
+.caps_wrapper {
     border: 2px solid $shade-light-gray;
     border-radius: 8px;
     padding: 32px;
@@ -9,28 +9,28 @@
     margin-top: 32px;
 }
 
-.cacli_bold {
+.caps_bold {
     font-weight: 500;
 }
 
-.cacli_conteudo {
+.caps_conteudo {
     display: flex;
     justify-content: space-between;
 }
 
-.cacli_info {
+.caps_info {
     display: flex;
     flex-direction: column;
     gap: 12px;
     margin-bottom: 32px;
 }
 
-.cacli_conteudo_dir {
+.caps_conteudo_dir {
     display: flex;
     gap: 12px;
 }
 
-.cacli_botao_cima {
+.caps_botao_cima {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -40,46 +40,46 @@
     cursor: pointer;
 }
 
-.cacli_lixeira {
+.caps_lixeira {
     background-color: $color-red;
 }
 
-.cacli_lixeira:hover {
+.caps_lixeira:hover {
     background-color: $color-red-hover;
 }
 
-.cacli_editar {
+.caps_editar {
     background-color: $color-green;
 }
 
-.cacli_editar:hover {
+.caps_editar:hover {
     background-color: $color-green-hover;
 }
 
-.cacli_baixo {
+.caps_baixo {
     display: none;
 }
 
-.cacli_baixo.aberto {
+.caps_baixo.aberto {
     display: flex;
     flex-direction: column;
 }
 
-.cacli_divisoria {
+.caps_divisoria {
     border: 1px solid $shade-light-gray;
     margin-top: 32px;
     margin-bottom: 32px;
     width: 100%;
 }
 
-.cacli_titulo {
+.caps_titulo {
     color: $brand-color-pink;
     font-size: 1.125rem;
     font-weight: 600;
     margin-bottom: 16px;
 }
 
-.cacli_item {
+.caps_item {
     display: flex;
     gap: 8px;
     align-items: center;
@@ -88,26 +88,48 @@
     color: $text-color-gray;
 }
 
-.cacli_menor {
+.caps_menor {
     width: 32px;
     height: 32px;
 }
 
-.cacli_menor img {
+.caps_menor img {
     width: 12px;
 }
 
-.cacli_baixo_secao {
+.caps_baixo_secao {
     display: flex;
     justify-content: space-between;
 }
 
-.cacli_baixo_secao_esq {
+.caps_baixo_secao_esq {
     display: flex;
     flex-direction: column;
 }
 
-.cacli_mbottomzero {
+.caps_mbottomzero {
     margin-bottom: 0px;
 }
 
+
+/* Responsividade */
+
+@media only screen and (max-width: 1200px) {
+
+    .caps_wrapper {
+        min-width: 100%;
+    }
+
+}
+
+@media only screen and (max-width: 500px) {
+
+    .caps_conteudo {
+        flex-direction: column;
+    }
+
+    .caps_conteudo_dir {
+        margin-top: 16px;
+    }
+
+}

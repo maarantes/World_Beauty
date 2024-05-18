@@ -49,18 +49,18 @@ function CardProdServ({ ID, Nome, Preco, Tipo, abrirModalEdicao, }: CardProps) {
     }
 
     return (
-        <div className="cacli_wrapper">
-            <div className="cacli_conteudo">
-                <div className="cacli_conteudo_esq">
-                    <div className="cacli_info cacli_mbottomzero">
-                        <p><span className="cacli_bold">Nome:</span> {Nome} </p>
-                        <p><span className="cacli_bold">Preço:</span> {`R$${Preco}`} </p>
-                        <p><span className="cacli_bold">ID:</span> {ID} </p>
+        <div className="caps_wrapper">
+            <div className="caps_conteudo">
+                <div className="caps_conteudo_esq">
+                    <div className="caps_info caps_mbottomzero">
+                        <p><span className="caps_bold">Nome:</span> {Nome} </p>
+                        <p><span className="caps_bold">Preço:</span> {`R$${Preco}`} </p>
+                        <p><span className="caps_bold">ID:</span> {ID} </p>
                     </div>
                 </div>
-                <div className="cacli_conteudo_dir">
-                    <button className="cacli_botao_cima cacli_editar" onClick={abrirModalEdicao}> <img src="img/icon_editar.svg" /> </button>
-                    <button className="cacli_botao_cima cacli_lixeira" onClick={() => deletarItem(ID)}> <img src="img/icon_lixeira.svg" /> </button>
+                <div className="caps_conteudo_dir">
+                    <button className="caps_botao_cima caps_editar" onClick={abrirModalEdicao}> <img src="img/icon_editar.svg" /> </button>
+                    <button className="caps_botao_cima caps_lixeira" onClick={() => deletarItem(ID)}> <img src="img/icon_lixeira.svg" /> </button>
                 </div>
             </div>
         </div>
