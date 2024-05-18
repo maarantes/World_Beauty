@@ -81,17 +81,35 @@ module.exports = (connection) => {
 
   // Rota de deletar
   router.delete("/deletar/:id", PegarTokenUsuario, (req, res) => {
-      const UsuarioID = req.user.id;
-      let comando = `DELETE FROM Clientes WHERE ID = ${req.params.id} AND UsuarioID = ${UsuarioID}`;
-      let query = connection.query(comando, (err, result) => {
-        if (err) {
-          console.error("Erro ao deletar cliente", err);
-          res.status(500).send("Erro ao deletar cliente");
-        } else {
-          res.send("Cliente deletado com sucesso!");
-        }
-      });
-  });
+    const UsuarioID = req.user.id;
+    const ClienteID = req.params.id;
+    let comando1 = `DELETE FROM CarrinhoProdutos WHERE ClienteID = ${ClienteID}`;
+    let comando2 = `DELETE FROM CarrinhoServicos WHERE ClienteID = ${ClienteID}`;
+    let comando3 = `DELETE FROM Clientes WHERE ID = ${ClienteID} AND UsuarioID = ${UsuarioID}`;
+    connection.query(comando1, (err, result) => {
+      if (err) {
+        console.error("Erro ao deletar do CarrinhoProdutos", err);
+        res.status(500).send("Erro ao deletar do CarrinhoProdutos");
+      } else {
+        connection.query(comando2, (err, result) => {
+          if (err) {
+            console.error("Erro ao deletar do CarrinhoServicos", err);
+            res.status(500).send("Erro ao deletar do CarrinhoServicos");
+          } else {
+            connection.query(comando3, (err, result) => {
+              if (err) {
+                console.error("Erro ao deletar cliente", err);
+                res.status(500).send("Erro ao deletar cliente");
+              } else {
+                res.send("Cliente deletado com sucesso!");
+              }
+            });
+          }
+        });
+      }
+    });
+});
+
 
 return router;
 
