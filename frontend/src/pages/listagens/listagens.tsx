@@ -40,6 +40,9 @@ function PaginaListagens() {
     // Mudar a tabela para 3 colunas se ela for de produtos famosos
     const [TabelaProdutosGenero, setTabelaProdutosGenero] = useState(false);
 
+    // Colocar prefixo R$ se a tabela for de valor
+    const [TabelaValor, setTabelaValor] = useState(false);
+
 
     const buscarTopClientesMais = async (UsuarioID: number, Ordem: string) => {
         try {
@@ -54,6 +57,7 @@ function PaginaListagens() {
             setTextoCabecalho("Quantidade");
             setTitulo("OUTPUT: Top 10 clientes que mais consumiram em quantidade");
             setTabelaProdutosGenero(false);
+            setTabelaValor(false)
         } catch (error) {
             console.error("Erro ao buscar os clientes:", error);
         }
@@ -73,6 +77,7 @@ function PaginaListagens() {
             setTextoCabecalho("Quantidade");
             setTitulo("OUTPUT: Top 10 clientes que menos consumiram em quantidade");
             setTabelaProdutosGenero(false);
+            setTabelaValor(false)
         } catch (error) {
             console.error("Erro ao buscar os clientes:", error);
         }
@@ -92,6 +97,7 @@ function PaginaListagens() {
             setTextoCabecalho("Valor total");
             setTitulo("OUTPUT: Top 05 clientes que mais consumiram em valor");
             setTabelaProdutosGenero(false);
+            setTabelaValor(true)
         } catch (error) {
             console.error("Erro ao buscar os clientes:", error);
         }
@@ -112,6 +118,7 @@ function PaginaListagens() {
             let generoLetraMaiuscula = genero.charAt(0).toUpperCase() + genero.slice(1);
             setTitulo(`OUTPUT: Produtos mais famosos do gênero ${generoLetraMaiuscula}`);
             setTabelaProdutosGenero(true);
+            setTabelaValor(false)
         } catch (error) {
             console.error("Erro ao buscar os produtos:", error);
         }
@@ -192,22 +199,28 @@ function PaginaListagens() {
             </tr>
         </thead>
         )}
+        
         <tbody>
-            {clientes.map((cliente, index) => (
-                <tr key={index}>
-                    <td style={{width: "10%"}}>{index + 1}</td>
-                    <td style={{width: "30%"}}>{cliente.Nome}</td>
-                    {TabelaProdutosGenero ? (
-                        <td style={{width: "30%"}}> {cliente.Total}</td>
+        {clientes.map((cliente, index) => (
+        <tr key={index}>
+            <td style={{width: "10%"}}>{index + 1}</td>
+            <td style={{width: "30%"}}>{cliente.Nome}</td>
+            {TabelaProdutosGenero ? (
+                <td style={{width: "30%"}}>{cliente.Total}</td>
+            ) : (
+                <>
+                    <td style={{width: "30%"}}>{cliente.ClienteID}</td>
+                    {TabelaValor ? (
+                        <td style={{width: "30%"}}>{`R$${cliente.Total}`}</td>
                     ) : (
-                        <>
-                            <td style={{width: "30%"}}>{cliente.ClienteID}</td>
-                            <td style={{width: "30%"}}> {cliente.Total}</td>
-                        </>
+                        <td style={{width: "30%"}}>{cliente.Total}</td>
                     )}
-                </tr>
-            ))}
-        </tbody>
+                </>
+                )}
+            </tr>
+        ))}
+    </tbody>
+
     </table>
         </div>
 
